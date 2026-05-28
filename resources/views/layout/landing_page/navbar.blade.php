@@ -21,7 +21,7 @@
         <li class="nav-item"><a class="nav-link" style="font-weight: 700" href="#footer">Kontak</a></li>
       </ul>
       <div class="d-flex gap-2 mt-3 mt-lg-0">
-        <a href="#" class="btn-login">Login</a>
+        <a href="/login" class="btn-login">Login</a>
         <a href="#" class="btn-shop-nav">Shop Now</a>
       </div>
     </div>
