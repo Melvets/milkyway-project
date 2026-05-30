@@ -1,6 +1,6 @@
 @extends('layout.landing_page.main')
 
-@section('title', 'Beranda - Milkyway') {{-- Mengisi judul spesifik halaman ini --}}
+@section('title', 'Beranda - Milkyway')
 
 @section('content')
     @include('layout.landing_page.hero')
