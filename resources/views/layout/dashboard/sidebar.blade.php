@@ -15,8 +15,8 @@
     <a class="nav-item-link {{ request()->routeIs('orders*') ? 'active' : '' }}" data-page="orders">
       <i class="bi bi-cart3"></i> Orders
     </a>
-    <a class="nav-item-link {{ request()->routeIs('inventory*') ? 'active' : '' }}" data-page="inventory">
-      <i class="bi bi-box-seam"></i> Inventory
+    <a class="nav-item-link {{ request()->routeIs('produk*') ? 'active' : '' }}" href="/dashboard/produk" data-page="produk">
+      <i class="bi bi-box-seam"></i> Produk
     </a>
     <a class="nav-item-link {{ request()->routeIs('customers*') ? 'active' : '' }}" data-page="customers">
       <i class="bi bi-people"></i> Customers

@@ -36,7 +36,7 @@
 
       <!-- Page Header -->
       <div class="page-header">
-        <div class="page-date" id="page-date">Sabtu · 30 Mei · 2026</div>
+        <div class="page-date" id="page-date"></div>
         <h2>Selamat datang, <span class="page-name">{{ Auth::user()->name }}</span></h2>
         <p class="page-desc">Total pesanan hari ini <strong class="highlight-green">+12%</strong> dibanding kemarin. Stok produk masih aman dan 3 pengiriman baru masuk pagi ini.</p>
         <div class="page-title-sub">

@@ -35,8 +35,15 @@
                 @endif
 
                 @yield('container')
-
             </div>
+
+            @include('layout.dashboard.bottom_nav_mobile')
         </div>
+
+        {{-- Bootstrap --}}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        {{-- js --}}
+        <script src="/js/dashboard.js"></script>
     </body>
 </html>
