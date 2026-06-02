@@ -2,8 +2,11 @@
 const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
 const now = new Date();
-document.getElementById('page-date').textContent =
-days[now.getDay()] + ' · ' + now.getDate() + ' ' + months[now.getMonth()] + ' · ' + now.getFullYear();
+const pageDateEl = document.getElementById('page-date');
+if (pageDateEl) {
+  pageDateEl.textContent =
+    days[now.getDay()] + ' · ' + now.getDate() + ' ' + months[now.getMonth()] + ' · ' + now.getFullYear();
+}
 
 // ── Counter animation ─────────────────────────
 function animateCount(el, target) {
@@ -22,6 +25,7 @@ animateCount(el, parseInt(el.dataset.target));
 
 // Revenue counter
 const revEl = document.getElementById('revenue-val');
+if (revEl) {
 let rv = 0, rvTarget = 1100000;
 const rvTick = () => {
 rv = Math.min(rv + rvTarget / 55, rvTarget);
@@ -30,6 +34,7 @@ revEl.textContent = m >= 1 ? m.toFixed(1) + 'M' : Math.round(rv / 1000) + 'K';
 if (rv < rvTarget) requestAnimationFrame(rvTick);
 };
 setTimeout(rvTick, 400);
+}
 
 // ── Build mobile order cards ───────────────────
 const orderData = [
@@ -42,6 +47,7 @@ const orderData = [
 
 function buildMobileCards(data) {
 const list = document.getElementById('mobile-order-list');
+if (!list) return;
 list.innerHTML = data.map(o => `
     <div class="order-card" data-status="${o.status.toLowerCase()}">
     <div class="order-card-top">
@@ -79,7 +85,11 @@ list.querySelectorAll('.act-delete').forEach(btn => {
     });
 });
 }
-buildMobileCards(orderData);
+
+// Hanya jalankan di halaman dashboard utama (ada #order-tbody)
+if (document.getElementById('order-tbody')) {
+  buildMobileCards(orderData);
+}
 
 // ── Filter tabs ────────────────────────────────
 const allRows  = [...document.querySelectorAll('#order-tbody tr')];

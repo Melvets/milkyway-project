@@ -106,7 +106,7 @@
               {{-- Preview foto saat ini --}}
               @if ($produk->gambar)
                 <div class="mb-2">
-                  <img src="{{ asset('storage/' . $produk->gambar) }}" alt="Foto saat ini"
+                  <img src="{{ asset($produk->gambar) }}" alt="Foto saat ini"
                     id="preview-img"
                     style="width:80px; height:80px; object-fit:cover; border-radius:10px; border:1px solid #C8F3FA;" />
                   <div style="font-size:11px; color:#4a5e7a; margin-top:4px;">Foto saat ini</div>
@@ -152,9 +152,6 @@
                       value="{{ $v->harga }}" placeholder="0" min="0"
                       class="form-control form-control-sm" />
                   </div>
-                  <input type="number" name="varians[{{ $i }}][stok]"
-                    value="{{ $v->stok }}" placeholder="Stok" min="0"
-                    class="form-control form-control-sm" style="width:70px; flex:none;" />
                   <button type="button" onclick="removeVarian({{ $i }})"
                     class="act-btn act-delete" style="flex:none;" aria-label="Hapus">
                     <i class="bi bi-trash3"></i>
@@ -210,8 +207,6 @@
         <input type="number" name="varians[${idx}][harga]" placeholder="0" min="0"
           class="form-control form-control-sm" />
       </div>
-      <input type="number" name="varians[${idx}][stok]" placeholder="Stok" min="0"
-        class="form-control form-control-sm" style="width:70px; flex:none;" />
       <button type="button" onclick="removeVarian(${idx})"
         class="act-btn act-delete" style="flex:none;" aria-label="Hapus">
         <i class="bi bi-trash3"></i>

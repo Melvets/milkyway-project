@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use App\Models\Produk;
 use App\Models\ProdukVarian;
 
@@ -43,7 +42,10 @@ class ProdukController extends Controller
  
         $gambarPath = null;
         if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('produk', 'public');
+            $file = $request->file('gambar');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('produk'), $filename);
+            $gambarPath = 'produk/' . $filename;
         }
  
         $produk = Produk::create([
@@ -101,16 +103,18 @@ class ProdukController extends Controller
             'varians'           => 'nullable|array',
             'varians.*.ukuran'  => 'required_with:varians|string|max:100',
             'varians.*.harga'   => 'required_with:varians|integer|min:0',
-            'varians.*.stok'    => 'nullable|integer|min:0',
         ]);
 
         // Update gambar jika ada file baru
         $gambarPath = $produk->gambar;
         if ($request->hasFile('gambar')) {
-            if ($gambarPath) {
-                \Storage::disk('public')->delete($gambarPath);
+            if ($gambarPath && file_exists(public_path($gambarPath))) {
+                unlink(public_path($gambarPath));
             }
-            $gambarPath = $request->file('gambar')->store('produk', 'public');
+            $file = $request->file('gambar');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('produk'), $filename);
+            $gambarPath = 'produk/' . $filename;
         }
 
         $produk->update([
@@ -130,7 +134,6 @@ class ProdukController extends Controller
                     'produk_id'  => $produk->id,
                     'ukuran'     => $v['ukuran'],
                     'harga'      => $v['harga'] ?? 0,
-                    'stok'       => $v['stok'] ?? 0,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ])->toArray();
@@ -151,8 +154,8 @@ class ProdukController extends Controller
     {
         $produk = Produk::findOrFail($id);
 
-        if ($produk->gambar) {
-            \Storage::disk('public')->delete($produk->gambar);
+        if ($produk->gambar && file_exists(public_path($produk->gambar))) {
+            unlink(public_path($produk->gambar));
         }
 
         $produk->delete(); // cascade hapus varian otomatis

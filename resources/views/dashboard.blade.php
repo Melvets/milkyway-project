@@ -36,8 +36,6 @@
 
                 @yield('container')
             </div>
-
-            @include('layout.dashboard.bottom_nav_mobile')
         </div>
 
         {{-- Bootstrap --}}

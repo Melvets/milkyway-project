@@ -77,7 +77,7 @@
                   <td>{{ $loop->iteration + ($produks->currentPage() - 1) * $produks->perPage() }}</td>
                   <td>
                     @if ($produk->gambar)
-                      <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}"
+                      <img src="{{ asset($produk->gambar) }}" alt="{{ $produk->nama }}"
                         style="width:48px; height:48px; object-fit:cover; border-radius:8px; border:1px solid #C8F3FA;">
                     @else
                       <div style="width:48px; height:48px; border-radius:8px; background:#f4f6f9; display:flex; align-items:center; justify-content:center;">
@@ -139,7 +139,61 @@
 
         <!-- Mobile order cards -->
         <div class="mobile-order-list" id="mobile-order-list">
-          <!-- Injected by JS -->
+          @forelse ($produks as $produk)
+            <div class="order-card">
+              <div class="order-card-top">
+                <div>
+                  <div class="order-card-id">#{{ $loop->iteration + ($produks->currentPage() - 1) * $produks->perPage() }}</div>
+                  <div class="order-card-name">{{ $produk->nama }}</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  @if ($produk->gambar)
+                    <img src="{{ asset($produk->gambar) }}" alt="{{ $produk->nama }}"
+                      style="width:40px; height:40px; object-fit:cover; border-radius:8px; border:1px solid #C8F3FA;">
+                  @else
+                    <div style="width:40px; height:40px; border-radius:8px; background:#f4f6f9; display:flex; align-items:center; justify-content:center;">
+                      <i class="bi bi-image" style="color:#4a5e7a;"></i>
+                    </div>
+                  @endif
+                </div>
+              </div>
+
+              <div class="order-card-row">
+                <div class="order-card-meta">
+                  @if ($produk->status === 'best seller')
+                    <span class="status-badge s-shipped">Best Seller</span>
+                  @elseif ($produk->status === 'new')
+                    <span class="status-badge s-pending">New</span>
+                  @else
+                    <span class="status-badge s-processing">Default</span>
+                  @endif
+
+                  @foreach ($produk->varian as $v)
+                    <span class="variant-badge v-original" style="margin:2px 2px 2px 0;">
+                      {{ $v->ukuran }} — Rp {{ number_format($v->harga, 0, ',', '.') }}
+                    </span>
+                  @endforeach
+                </div>
+
+                <div class="order-card-actions">
+                  <a href="{{ route('produk.edit', $produk->id) }}" class="act-btn act-edit">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                  <form action="{{ route('produk.destroy', $produk->id) }}" method="POST"
+                    onsubmit="return confirm('Hapus produk ini?')">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="act-btn act-delete">
+                      <i class="bi bi-trash3"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          @empty
+            <div style="text-align:center; padding:32px; color:#4a5e7a; font-size:13px;">
+              Belum ada produk. <a href="{{ route('produk.create') }}">Tambah sekarang</a>
+            </div>
+          @endforelse
         </div>
 
         <div class="table-footer">
