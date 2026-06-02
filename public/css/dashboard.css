@@ -488,6 +488,20 @@ body {
 .act-edit:hover   { background: rgba(0,150,200,.2); }
 .act-delete:hover { background: rgba(229,57,53,.2); }
 
+.act-create {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    /* background: rgba(0,150,200,.1);   */
+    background: var(--primary);
+    /* color: var(--primary); */
+    color: var(--light-bg);
+    cursor: pointer;
+}
+.act-create:hover { background: #006e92; }
+
 /* ── MOBILE ORDER CARDS (hidden on desktop) ── */
 .mobile-order-list { display: none; padding: 12px 14px 4px; }
 

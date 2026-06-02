@@ -35,15 +35,20 @@
     <div class="page">
 
       <!-- Page Header -->
-      <div class="page-header">
-        <div class="page-date" id="page-date"></div>
-        <h2>Selamat datang, <span class="page-name">{{ Auth::user()->name }}</span></h2>
-        <p class="page-desc">Total pesanan hari ini <strong class="highlight-green">+12%</strong> dibanding kemarin. Stok produk masih aman dan 3 pengiriman baru masuk pagi ini.</p>
-        <div class="page-title-sub">
-          <span>Order Management</span>
+      <div class="mb-3 page-header">
+        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item page-date"><a href="/dashboard" style="color: #4a5e7a; text-decoration:none">Dashboard</a></li>
+            <li class="breadcrumb-item page-date active" style="color: #FFB201" aria-current="page">Produk</li>
+          </ol>
+        </nav>
+        <h2>Produk <span class="page-name">Milkyway</span></h2>
+        <p class="page-desc">Kelola daftar produk susu kambing Anda.</p>
+        <div class="page-title-sub mb-4">
+          <span>Kelola Produk</span>
           <span class="sep">·</span>
-          <span>Track and process customer milk order</span>
         </div>
+        <a href="/dashboard/produk/create" style="text-decoration: none;" class="act-create"><i class="bi bi-plus-lg fw-bold" style="font-style: normal">Tambah Produk</i></a>
       </div>
 
       <!-- Order Table -->
