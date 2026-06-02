@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\Produk;
+use App\Models\ProdukVarian;
 
 class ProdukController extends Controller
 {
@@ -11,7 +14,8 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        return view('layout.dashboard.produk.main');
+        $produks = Produk::with('varian')->latest()->paginate(10);
+        return view('layout.dashboard.produk.main', compact('produks'));
     }
 
     /**
@@ -27,7 +31,42 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama'              => 'required|string|max:255',
+            'deskripsi'         => 'nullable|string',
+            'gambar'            => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'status'            => 'required|in:new,best seller,default',
+            'varians'           => 'nullable|array',
+            'varians.*.ukuran'  => 'required_with:varians|string|max:100',
+            'varians.*.harga'   => 'required_with:varians|integer|min:0',
+        ]);
+ 
+        $gambarPath = null;
+        if ($request->hasFile('gambar')) {
+            $gambarPath = $request->file('gambar')->store('produk', 'public');
+        }
+ 
+        $produk = Produk::create([
+            'nama'      => $request->nama,
+            'deskripsi' => $request->deskripsi,
+            'gambar'    => $gambarPath,
+            'status'    => $request->status,
+        ]);
+ 
+        if ($request->filled('varians')) {
+            $varians = collect($request->varians)->map(fn($v) => [
+                'produk_id'  => $produk->id,
+                'ukuran'     => $v['ukuran'],
+                'harga'      => $v['harga'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ])->toArray();
+ 
+            ProdukVarian::insert($varians);
+        }
+ 
+        return redirect()->route('produk.index')
+            ->with('success', 'Produk berhasil ditambahkan!');
     }
 
     /**
@@ -43,7 +82,8 @@ class ProdukController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $produk = Produk::with('varian')->findOrFail($id);
+        return view('layout.dashboard.produk.edit', compact('produk'));
     }
 
     /**
@@ -51,7 +91,57 @@ class ProdukController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $produk = Produk::with('varian')->findOrFail($id);
+
+        $request->validate([
+            'nama'              => 'required|string|max:255',
+            'deskripsi'         => 'nullable|string',
+            'gambar'            => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'status'            => 'required|in:new,best seller,default',
+            'varians'           => 'nullable|array',
+            'varians.*.ukuran'  => 'required_with:varians|string|max:100',
+            'varians.*.harga'   => 'required_with:varians|integer|min:0',
+            'varians.*.stok'    => 'nullable|integer|min:0',
+        ]);
+
+        // Update gambar jika ada file baru
+        $gambarPath = $produk->gambar;
+        if ($request->hasFile('gambar')) {
+            if ($gambarPath) {
+                \Storage::disk('public')->delete($gambarPath);
+            }
+            $gambarPath = $request->file('gambar')->store('produk', 'public');
+        }
+
+        $produk->update([
+            'nama'      => $request->nama,
+            'deskripsi' => $request->deskripsi,
+            'gambar'    => $gambarPath,
+            'status'    => $request->status,
+        ]);
+
+        // Hapus semua varian lama, insert yang baru
+        $produk->varian()->delete();
+
+        if ($request->filled('varians')) {
+            $varians = collect($request->varians)
+                ->filter(fn($v) => !empty($v['ukuran']))
+                ->map(fn($v) => [
+                    'produk_id'  => $produk->id,
+                    'ukuran'     => $v['ukuran'],
+                    'harga'      => $v['harga'] ?? 0,
+                    'stok'       => $v['stok'] ?? 0,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ])->toArray();
+
+            if (!empty($varians)) {
+                ProdukVarian::insert($varians);
+            }
+        }
+
+        return redirect()->route('produk.index')
+            ->with('success', 'Produk berhasil diperbarui!');
     }
 
     /**
@@ -59,6 +149,15 @@ class ProdukController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $produk = Produk::findOrFail($id);
+
+        if ($produk->gambar) {
+            \Storage::disk('public')->delete($produk->gambar);
+        }
+
+        $produk->delete(); // cascade hapus varian otomatis
+
+        return redirect()->route('produk.index')
+            ->with('success', 'Produk berhasil dihapus!');
     }
 }

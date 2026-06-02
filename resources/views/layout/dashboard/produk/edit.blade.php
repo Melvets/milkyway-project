@@ -1,6 +1,6 @@
 @extends('dashboard')
 
-@section('title', 'Tambah Produk - Milkyway')
+@section('title', 'Edit Produk - Milkyway')
 
 @section('container')
 
@@ -35,14 +35,21 @@
     <div class="page-header">
       <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
         <ol class="breadcrumb m-0">
-          <li class="breadcrumb-item page-date"><a href="/dashboard" style="color: #4a5e7a; text-decoration:none">Dashboard</a></li>
-          <li class="breadcrumb-item page-date"><a href="/dashboard/produk" style="color: #4a5e7a; text-decoration:none">Produk</a></li>
-          <li class="breadcrumb-item page-date active" style="color: #FFB201" aria-current="page">Tambah Produk</li>
+          <li class="breadcrumb-item page-date"><a href="/dashboard" style="color:#4a5e7a; text-decoration:none">Dashboard</a></li>
+          <li class="breadcrumb-item page-date"><a href="{{ route('produk.index') }}" style="color:#4a5e7a; text-decoration:none">Produk</a></li>
+          <li class="breadcrumb-item page-date active" style="color:#FFB201" aria-current="page">Edit Produk</li>
         </ol>
       </nav>
-      <h2>Tambah <span class="page-name">Produk</span></h2>
-      <p class="page-desc">Isi informasi produk dan varian harga di bawah ini.</p>
+      <h2>Edit <span class="page-name">Produk</span></h2>
+      <p class="page-desc">Perbarui informasi produk dan variannya.</p>
     </div>
+
+    {{-- Success --}}
+    @if (session('success'))
+      <div class="mb-3 p-3 rounded-3" style="background:#e8f5e9; border:1px solid #a5d6a7; color:#2e7d32; font-size:13px;">
+        {{ session('success') }}
+      </div>
+    @endif
 
     {{-- Error --}}
     @if ($errors->any())
@@ -55,8 +62,9 @@
       </div>
     @endif
 
-    <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('produk.update', $produk->id) }}" method="POST" enctype="multipart/form-data">
       @csrf
+      @method('PUT')
 
       <div class="row g-4">
 
@@ -66,8 +74,11 @@
             <p class="stat-label text-uppercase mb-3" style="letter-spacing:.8px;">Informasi Produk</p>
 
             <div class="mb-3">
-              <label class="form-label" style="font-size:13px; color:#4a5e7a;" for="nama">Nama Produk <span class="text-danger">*</span></label>
-              <input type="text" name="nama" id="nama" value="{{ old('nama') }}"
+              <label class="form-label" style="font-size:13px; color:#4a5e7a;" for="nama">
+                Nama Produk <span class="text-danger">*</span>
+              </label>
+              <input type="text" name="nama" id="nama"
+                value="{{ old('nama', $produk->nama) }}"
                 placeholder="Contoh: Susu Kambing Murni"
                 class="form-control form-control-sm @error('nama') is-invalid @enderror" />
               @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -77,27 +88,40 @@
               <label class="form-label" style="font-size:13px; color:#4a5e7a;" for="deskripsi">Deskripsi</label>
               <textarea name="deskripsi" id="deskripsi" rows="3"
                 placeholder="Deskripsi produk (opsional)..."
-                class="form-control form-control-sm">{{ old('deskripsi') }}</textarea>
+                class="form-control form-control-sm">{{ old('deskripsi', $produk->deskripsi) }}</textarea>
             </div>
 
             <div class="mb-3">
               <label class="form-label" style="font-size:13px; color:#4a5e7a;" for="status">Label Produk</label>
               <select name="status" id="status" class="form-select form-select-sm">
-                <option value="default"     {{ old('status') == 'default'     ? 'selected' : '' }}>Default</option>
-                <option value="new"         {{ old('status') == 'new'         ? 'selected' : '' }}>New</option>
-                <option value="best seller" {{ old('status') == 'best seller' ? 'selected' : '' }}>Best Seller</option>
+                <option value="default"     {{ old('status', $produk->status) == 'default'     ? 'selected' : '' }}>Default</option>
+                <option value="new"         {{ old('status', $produk->status) == 'new'         ? 'selected' : '' }}>New</option>
+                <option value="best seller" {{ old('status', $produk->status) == 'best seller' ? 'selected' : '' }}>Best Seller</option>
               </select>
             </div>
 
             <div>
               <label class="form-label" style="font-size:13px; color:#4a5e7a;" for="gambar">Foto Produk</label>
+
+              {{-- Preview foto saat ini --}}
+              @if ($produk->gambar)
+                <div class="mb-2">
+                  <img src="{{ asset('storage/' . $produk->gambar) }}" alt="Foto saat ini"
+                    id="preview-img"
+                    style="width:80px; height:80px; object-fit:cover; border-radius:10px; border:1px solid #C8F3FA;" />
+                  <div style="font-size:11px; color:#4a5e7a; margin-top:4px;">Foto saat ini</div>
+                </div>
+              @else
+                <div id="preview-wrap" style="display:none;" class="mb-2">
+                  <img id="preview-img" src="" alt="Preview"
+                    style="width:80px; height:80px; object-fit:cover; border-radius:10px; border:1px solid #C8F3FA;" />
+                </div>
+              @endif
+
               <input type="file" name="gambar" id="gambar" accept="image/*"
                 onchange="previewGambar(this)"
                 class="form-control form-control-sm" />
-              <div id="preview-wrap" class="mt-2" style="display:none;">
-                <img id="preview-img" src="" alt="Preview"
-                  style="width:80px; height:80px; object-fit:cover; border-radius:10px; border:1px solid #C8F3FA;" />
-              </div>
+              <div style="font-size:11px; color:#4a5e7a; margin-top:4px;">Kosongkan jika tidak ingin mengubah foto</div>
             </div>
           </div>
         </div>
@@ -108,13 +132,40 @@
             <div class="d-flex align-items-center justify-content-between mb-3">
               <p class="stat-label text-uppercase mb-0" style="letter-spacing:.8px;">Varian Produk</p>
               <button type="button" onclick="addVarian()"
-                class="act-btn act-edit d-flex align-items-center gap-1" style="width:auto; padding:6px 12px; border-radius:8px;">
+                class="act-btn act-edit d-flex align-items-center gap-1"
+                style="width:auto; padding:6px 12px; border-radius:8px;">
                 <i class="bi bi-plus-lg"></i> Tambah
               </button>
             </div>
 
-            <div id="varian-list" class="d-flex flex-column gap-2"></div>
-            <p id="empty-msg" class="stat-label text-center py-3 mb-0">
+            <div id="varian-list" class="d-flex flex-column gap-2">
+              {{-- Varian yang sudah ada --}}
+              @forelse ($produk->varian as $i => $v)
+                <div id="varian-row-{{ $i }}" class="d-flex gap-2 align-items-center">
+                  <input type="text" name="varians[{{ $i }}][ukuran]"
+                    value="{{ $v->ukuran }}" placeholder="Ukuran (250ml, 1L...)"
+                    class="form-control form-control-sm" style="flex:1;" />
+                  <div class="input-group input-group-sm" style="flex:1;">
+                    <span class="input-group-text"
+                      style="font-size:12px; background:#f4f6f9; border-color:#dee2e6;">Rp</span>
+                    <input type="number" name="varians[{{ $i }}][harga]"
+                      value="{{ $v->harga }}" placeholder="0" min="0"
+                      class="form-control form-control-sm" />
+                  </div>
+                  <input type="number" name="varians[{{ $i }}][stok]"
+                    value="{{ $v->stok }}" placeholder="Stok" min="0"
+                    class="form-control form-control-sm" style="width:70px; flex:none;" />
+                  <button type="button" onclick="removeVarian({{ $i }})"
+                    class="act-btn act-delete" style="flex:none;" aria-label="Hapus">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </div>
+              @empty
+              @endforelse
+            </div>
+
+            <p id="empty-msg" class="stat-label text-center py-3 mb-0"
+              style="{{ $produk->varian->count() > 0 ? 'display:none;' : '' }}">
               Belum ada varian. Klik "Tambah" untuk mulai.
             </p>
           </div>
@@ -125,12 +176,14 @@
       {{-- Actions --}}
       <div class="d-flex justify-content-end gap-2 mt-4">
         <a href="{{ route('produk.index') }}"
-          class="act-btn" style="width:auto; padding:8px 20px; text-decoration:none; color:#4a5e7a; background:#f4f6f9; border-radius:10px; font-size:14px;">
+          class="act-btn"
+          style="width:auto; padding:8px 20px; text-decoration:none; color:#4a5e7a; background:#f4f6f9; border-radius:10px; font-size:14px;">
           Batal
         </a>
         <button type="submit"
-          class="act-btn act-edit" style="width:auto; padding:8px 20px; font-size:14px; border-radius:10px;">
-          <i class="bi bi-check2"></i> Simpan Produk
+          class="act-btn act-edit"
+          style="width:auto; padding:8px 20px; font-size:14px; border-radius:10px;">
+          <i class="bi bi-check2"></i> Simpan Perubahan
         </button>
       </div>
 
@@ -139,7 +192,7 @@
   </div><!-- /page -->
 
 <script>
-  let varianCount = 0;
+  let varianCount = {{ $produk->varian->count() }};
 
   function addVarian() {
     const list = document.getElementById('varian-list');
@@ -157,6 +210,8 @@
         <input type="number" name="varians[${idx}][harga]" placeholder="0" min="0"
           class="form-control form-control-sm" />
       </div>
+      <input type="number" name="varians[${idx}][stok]" placeholder="Stok" min="0"
+        class="form-control form-control-sm" style="width:70px; flex:none;" />
       <button type="button" onclick="removeVarian(${idx})"
         class="act-btn act-delete" style="flex:none;" aria-label="Hapus">
         <i class="bi bi-trash3"></i>
@@ -176,10 +231,12 @@
   function previewGambar(input) {
     const file = input.files[0];
     if (!file) return;
+    let img = document.getElementById('preview-img');
+    if (!img) return;
     const wrap = document.getElementById('preview-wrap');
-    const img  = document.getElementById('preview-img');
+    if (wrap) wrap.style.display = '';
     const reader = new FileReader();
-    reader.onload = e => { img.src = e.target.result; wrap.style.display = ''; };
+    reader.onload = e => { img.src = e.target.result; };
     reader.readAsDataURL(file);
   }
 </script>

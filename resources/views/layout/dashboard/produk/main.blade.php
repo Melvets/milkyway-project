@@ -54,13 +54,7 @@
       <!-- Order Table -->
       <div class="table-section">
         <div class="table-head-row">
-          <h6>Order List</h6>
-          <div class="filter-tabs">
-            <button class="filter-tab active" data-filter="all">All</button>
-            <button class="filter-tab" data-filter="pending">Pending</button>
-            <button class="filter-tab" data-filter="processing">Processing</button>
-            <button class="filter-tab" data-filter="shipped">Shipped</button>
-          </div>
+          <h6>Product List</h6>
         </div>
 
         <!-- Desktop table -->
@@ -68,25 +62,77 @@
           <table class="custom-table">
             <thead>
               <tr>
-                <th>Order ID</th>
-                <th>Customer</th>
-                <th>Variant</th>
-                <th>QTY</th>
-                <th>Total Price</th>
-                <th>Status</th>
+                <th>No</th>
+                <th>Foto</th>
+                <th>Nama Produk</th>
+                <th>Deskripsi</th>
+                <th>Label</th>
+                <th>Varian</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="order-tbody">
-              <tr data-status="pending">
-                <td><span class="order-id">#MW-8820</span></td>
-                <td><div class="customer-name">Carmenita Ayu</div><div class="customer-phone">+62 812-3456-7890</div></td>
-                <td><span class="variant-badge v-strawberry">Strawberry 1L</span></td>
-                <td>1</td>
-                <td><strong>Rp.30.000</strong></td>
-                <td><span class="status-badge s-pending">Pending</span></td>
-                <td><div class="action-btns"><button class="act-btn act-edit"><i class="bi bi-pencil"></i></button><button class="act-btn act-delete"><i class="bi bi-trash3"></i></button></div></td>
-              </tr>
+            <tbody>
+              @forelse ($produks as $produk)
+                <tr>
+                  <td>{{ $loop->iteration + ($produks->currentPage() - 1) * $produks->perPage() }}</td>
+                  <td>
+                    @if ($produk->gambar)
+                      <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama }}"
+                        style="width:48px; height:48px; object-fit:cover; border-radius:8px; border:1px solid #C8F3FA;">
+                    @else
+                      <div style="width:48px; height:48px; border-radius:8px; background:#f4f6f9; display:flex; align-items:center; justify-content:center;">
+                        <i class="bi bi-image" style="color:#4a5e7a; font-size:18px;"></i>
+                      </div>
+                    @endif
+                  </td>
+                  <td>
+                    <div class="customer-name">{{ $produk->nama }}</div>
+                  </td>
+                  <td>
+                    <div style="font-size:13px; color:#4a5e7a; max-width:200px;">
+                      {{ $produk->deskripsi ? Str::limit($produk->deskripsi, 60) : '-' }}
+                    </div>
+                  </td>
+                  <td>
+                    @if ($produk->status === 'best seller')
+                      <span class="status-badge s-shipped">Best Seller</span>
+                    @elseif ($produk->status === 'new')
+                      <span class="status-badge s-pending">New</span>
+                    @else
+                      <span class="status-badge s-processing">Default</span>
+                    @endif
+                  </td>
+                  <td>
+                    @forelse ($produk->varian as $v)
+                      <span class="variant-badge v-original" style="display:inline-block; margin:2px 2px 2px 0;">
+                        {{ $v->ukuran }} — Rp {{ number_format($v->harga, 0, ',', '.') }}
+                      </span>
+                    @empty
+                      <span style="font-size:12px; color:#4a5e7a;">-</span>
+                    @endforelse
+                  </td>
+                  <td>
+                    <div class="action-btns">
+                      <a href="{{ route('produk.edit', $produk->id) }}" class="act-btn act-edit">
+                        <i class="bi bi-pencil"></i>
+                      </a>
+                      <form action="{{ route('produk.destroy', $produk->id) }}" method="POST"
+                        onsubmit="return confirm('Hapus produk ini?')">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="act-btn act-delete">
+                          <i class="bi bi-trash3"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              @empty
+                <tr>
+                  <td colspan="7" class="text-center" style="color:#4a5e7a; padding:32px;">
+                    Belum ada produk. <a href="{{ route('produk.create') }}">Tambah sekarang</a>
+                  </td>
+                </tr>
+              @endforelse
             </tbody>
           </table>
         </div>
@@ -97,13 +143,19 @@
         </div>
 
         <div class="table-footer">
-          <span>Showing 5 of 27 orders</span>
+          <span>Showing {{ $produks->firstItem() }}–{{ $produks->lastItem() }} of {{ $produks->total() }} produk</span>
           <div class="pager">
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <button class="page-btn">…</button>
-            <button class="page-btn"><i class="bi bi-chevron-right" style="font-size:11px"></i></button>
+            @for ($i = 1; $i <= $produks->lastPage(); $i++)
+              <a href="{{ $produks->url($i) }}"
+                class="page-btn {{ $produks->currentPage() === $i ? 'active' : '' }}">
+                {{ $i }}
+              </a>
+            @endfor
+            @if ($produks->hasMorePages())
+              <a href="{{ $produks->nextPageUrl() }}" class="page-btn">
+                <i class="bi bi-chevron-right" style="font-size:11px"></i>
+              </a>
+            @endif
           </div>
         </div>
       </div>
