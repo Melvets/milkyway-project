@@ -42,7 +42,11 @@ body {
 
 /* ── HERO ── */
 .hero {
-    background: linear-gradient(160deg, var(--sky2) 0%, var(--sky) 60%, #0096C8 100%);
+    /* background: linear-gradient(160deg, var(--sky2) 0%, var(--sky) 60%, #0096C8 100%); */
+    background-image: url('/img/background.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     min-height: 88vh;
     position: relative;
     overflow: hidden;

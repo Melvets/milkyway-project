@@ -4,8 +4,7 @@
 <nav class="navbar navbar-expand-lg sticky-top py-2">
   <div class="container">
     <a class="navbar-brand" href="#">
-      MILKYWAY
-      <span>Susu Kambing</span>
+      <img src="{{ asset('img/logo_potong.png') }}" alt="Milkyway" style="height:50px; width:auto;">
     </a>
     <button class="navbar-toggler border-0 shadow-none" type="button"
             data-bs-toggle="collapse" data-bs-target="#navMain">

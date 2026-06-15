@@ -1,27 +1,29 @@
 <?php
 
+use App\Http\Controllers\PemesananController;
+use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/dashboard', function () {
-    return view('layout.dashboard.main');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Pemesanan (publik)
+Route::get('/pesan-sekarang', [PemesananController::class, 'create'])->name('pesan.create');
+Route::post('/pesan-sekarang', [PemesananController::class, 'store'])->name('pesan.store');
+
+// Dashboard & Orders (protected)
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [PesananController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/orders', [PesananController::class, 'orders'])->name('orders.index');
+    Route::get('/dashboard/orders/{id}/edit', [PesananController::class, 'edit'])->name('orders.edit');
+    Route::put('/dashboard/orders/{id}', [PesananController::class, 'update'])->name('orders.update');
+    Route::post('/dashboard/orders/{id}/terima', [PesananController::class, 'terima'])->name('orders.terima');
+    Route::post('/dashboard/orders/{id}/tolak', [PesananController::class, 'tolak'])->name('orders.tolak');
+    Route::post('/dashboard/orders/{id}/selesai', [PesananController::class, 'selesai'])->name('orders.selesai');
+});
 
 Route::resource('/dashboard/produk', ProdukController::class)->middleware('auth');
 

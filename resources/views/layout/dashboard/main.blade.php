@@ -52,122 +52,154 @@
           <div class="stat-card c-pending">
             <div class="stat-icon-wrap ic-pending"><i class="bi bi-clipboard2-pulse"></i></div>
             <div class="stat-label">Pending Order</div>
-            <div class="stat-value" data-target="15">0</div>
+            <div class="stat-value">{{ $statPending }}</div>
           </div>
         </div>
         <div class="col-6 col-lg-3">
           <div class="stat-card c-process">
             <div class="stat-icon-wrap ic-process"><i class="bi bi-arrow-repeat"></i></div>
-            <div class="stat-label">Processing</div>
-            <div class="stat-value" data-target="15">0</div>
+            <div class="stat-label">Diproses</div>
+            <div class="stat-value">{{ $statDiproses }}</div>
           </div>
         </div>
         <div class="col-6 col-lg-3">
           <div class="stat-card c-shipped">
             <div class="stat-icon-wrap ic-shipped"><i class="bi bi-truck"></i></div>
-            <div class="stat-label">Shipped</div>
-            <div class="stat-value" data-target="30">0</div>
+            <div class="stat-label">Selesai</div>
+            <div class="stat-value">{{ $statSelesai }}</div>
           </div>
         </div>
         <div class="col-6 col-lg-3">
           <div class="stat-card c-revenue">
             <div class="stat-icon-wrap ic-revenue"><i class="bi bi-cash-coin"></i></div>
-            <div class="stat-label">Revenue Today</div>
-            <div class="stat-value" id="revenue-val">0</div>
+            <div class="stat-label">Total Revenue</div>
+            <div class="stat-value">{{ $statRevenue >= 1000000 ? number_format($statRevenue/1000000, 1).'M' : number_format($statRevenue/1000, 0).'K' }}</div>
           </div>
         </div>
       </div>
 
-      <!-- Order Table -->
+      {{-- Alert success --}}
+      @if (session('success'))
+        <div class="mb-3 p-3 rounded-3" style="background:#e8f5e9; border:1px solid #a5d6a7; color:#2e7d32; font-size:13px;">
+          {{ session('success') }}
+        </div>
+      @endif
+
+      <!-- Pesanan Pending - Perlu Konfirmasi -->
       <div class="table-section">
         <div class="table-head-row">
-          <h6>Order List</h6>
-          <div class="filter-tabs">
-            <button class="filter-tab active" data-filter="all">All</button>
-            <button class="filter-tab" data-filter="pending">Pending</button>
-            <button class="filter-tab" data-filter="processing">Processing</button>
-            <button class="filter-tab" data-filter="shipped">Shipped</button>
-          </div>
+          <h6>Pesanan Masuk <span style="font-size:12px; font-weight:400; color:#4a5e7a;">— perlu konfirmasi</span></h6>
         </div>
 
-        <!-- Desktop table -->
         <div class="table-wrap">
           <table class="custom-table">
             <thead>
               <tr>
                 <th>Order ID</th>
                 <th>Customer</th>
-                <th>Variant</th>
-                <th>QTY</th>
-                <th>Total Price</th>
-                <th>Status</th>
+                <th>Alamat</th>
+                <th>Detail Pesanan</th>
+                <th>Total</th>
+                <th>Waktu</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody id="order-tbody">
-              <tr data-status="pending">
-                <td><span class="order-id">#MW-8820</span></td>
-                <td><div class="customer-name">Carmenita Ayu</div><div class="customer-phone">+62 812-3456-7890</div></td>
-                <td><span class="variant-badge v-strawberry">Strawberry 1L</span></td>
-                <td>1</td>
-                <td><strong>Rp.30.000</strong></td>
-                <td><span class="status-badge s-pending">Pending</span></td>
-                <td><div class="action-btns"><button class="act-btn act-edit"><i class="bi bi-pencil"></i></button><button class="act-btn act-delete"><i class="bi bi-trash3"></i></button></div></td>
-              </tr>
-              <tr data-status="shipped">
-                <td><span class="order-id">#MW-8821</span></td>
-                <td><div class="customer-name">Kimberly Salim</div><div class="customer-phone">+62 812-3456-7891</div></td>
-                <td><span class="variant-badge v-original">Original Botol 250ml</span></td>
-                <td>3</td>
-                <td><strong>Rp.30.000</strong></td>
-                <td><span class="status-badge s-shipped">Shipped</span></td>
-                <td><div class="action-btns"><button class="act-btn act-edit"><i class="bi bi-pencil"></i></button><button class="act-btn act-delete"><i class="bi bi-trash3"></i></button></div></td>
-              </tr>
-              <tr data-status="processing">
-                <td><span class="order-id">#MW-8822</span></td>
-                <td><div class="customer-name">Zayyan Fahri</div><div class="customer-phone">+62 812-3456-7892</div></td>
-                <td><span class="variant-badge v-cokelat">Cokelat Botol 250ml</span></td>
-                <td>5</td>
-                <td><strong>Rp.50.000</strong></td>
-                <td><span class="status-badge s-processing">Processing</span></td>
-                <td><div class="action-btns"><button class="act-btn act-edit"><i class="bi bi-pencil"></i></button><button class="act-btn act-delete"><i class="bi bi-trash3"></i></button></div></td>
-              </tr>
-              <tr data-status="pending">
-                <td><span class="order-id">#MW-8823</span></td>
-                <td><div class="customer-name">Edward Martin</div><div class="customer-phone">+62 812-3456-7893</div></td>
-                <td><span class="variant-badge v-alpukat">Alpukat 1L</span></td>
-                <td>1</td>
-                <td><strong>Rp.30.000</strong></td>
-                <td><span class="status-badge s-pending">Pending</span></td>
-                <td><div class="action-btns"><button class="act-btn act-edit"><i class="bi bi-pencil"></i></button><button class="act-btn act-delete"><i class="bi bi-trash3"></i></button></div></td>
-              </tr>
-              <tr data-status="shipped">
-                <td><span class="order-id">#MW-8824</span></td>
-                <td><div class="customer-name">Nadia Permata</div><div class="customer-phone">+62 812-3456-7894</div></td>
-                <td><span class="variant-badge v-vanilla">Vanilla 1L</span></td>
-                <td>2</td>
-                <td><strong>Rp.60.000</strong></td>
-                <td><span class="status-badge s-shipped">Shipped</span></td>
-                <td><div class="action-btns"><button class="act-btn act-edit"><i class="bi bi-pencil"></i></button><button class="act-btn act-delete"><i class="bi bi-trash3"></i></button></div></td>
-              </tr>
+              @forelse ($pending as $p)
+                <tr data-status="pending">
+                  <td><span class="order-id">#MW-{{ str_pad($p->id, 4, '0', STR_PAD_LEFT) }}</span></td>
+                  <td>
+                    <div class="customer-name">{{ $p->nama_pemesan }}</div>
+                    <div class="customer-phone">{{ $p->nomor_hp }}</div>
+                  </td>
+                  <td style="font-size:12px; color:#4a5e7a; max-width:150px;">{{ $p->alamat }}</td>
+                  <td>
+                    @foreach ($p->items as $item)
+                      <div style="font-size:12px;">
+                        {{ $item->varian->produk->nama }} {{ $item->varian->ukuran }}
+                        × {{ $item->qty }}
+                      </div>
+                    @endforeach
+                  </td>
+                  <td><strong>Rp {{ number_format($p->items->sum('subtotal'), 0, ',', '.') }}</strong></td>
+                  <td style="font-size:12px; color:#4a5e7a;">{{ $p->created_at->diffForHumans() }}</td>
+                  <td>
+                    <div class="action-btns">
+                      <form action="{{ route('orders.terima', $p->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="act-btn act-edit" title="Terima" style="background:rgba(46,156,78,.12); color:#2e9c4e;">
+                          <i class="bi bi-check-lg"></i>
+                        </button>
+                      </form>
+                      <form action="{{ route('orders.tolak', $p->id) }}" method="POST"
+                        onsubmit="return confirm('Tolak pesanan ini?')">
+                        @csrf
+                        <button type="submit" class="act-btn act-delete" title="Tolak">
+                          <i class="bi bi-x-lg"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              @empty
+                <tr>
+                  <td colspan="7" class="text-center" style="color:#4a5e7a; padding:32px;">
+                    Tidak ada pesanan baru yang menunggu konfirmasi.
+                  </td>
+                </tr>
+              @endforelse
             </tbody>
           </table>
         </div>
 
-        <!-- Mobile order cards -->
+        <!-- Mobile cards -->
         <div class="mobile-order-list" id="mobile-order-list">
-          <!-- Injected by JS -->
+          @forelse ($pending as $p)
+            <div class="order-card" data-status="pending">
+              <div class="order-card-top">
+                <div>
+                  <div class="order-card-id">#MW-{{ str_pad($p->id, 4, '0', STR_PAD_LEFT) }}</div>
+                  <div class="order-card-name">{{ $p->nama_pemesan }}</div>
+                  <div class="order-card-phone">{{ $p->nomor_hp }}</div>
+                </div>
+                <span class="status-badge s-pending">Pending</span>
+              </div>
+              <div class="order-card-row">
+                <div class="order-card-meta" style="flex-direction:column; align-items:flex-start;">
+                  @foreach ($p->items as $item)
+                    <span style="font-size:12px;">{{ $item->varian->produk->nama }} {{ $item->varian->ukuran }} ×{{ $item->qty }}</span>
+                  @endforeach
+                  <strong style="font-size:13px; margin-top:4px;">Rp {{ number_format($p->items->sum('subtotal'), 0, ',', '.') }}</strong>
+                </div>
+                <div class="order-card-actions">
+                  <form action="{{ route('orders.terima', $p->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="act-btn act-edit" title="Terima" style="background:rgba(46,156,78,.12); color:#2e9c4e;">
+                      <i class="bi bi-check-lg"></i>
+                    </button>
+                  </form>
+                  <form action="{{ route('orders.tolak', $p->id) }}" method="POST"
+                    onsubmit="return confirm('Tolak pesanan ini?')">
+                    @csrf
+                    <button type="submit" class="act-btn act-delete" title="Tolak">
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          @empty
+            <div style="text-align:center; padding:32px; color:#4a5e7a; font-size:13px;">
+              Tidak ada pesanan baru yang menunggu konfirmasi.
+            </div>
+          @endforelse
         </div>
 
         <div class="table-footer">
-          <span>Showing 5 of 27 orders</span>
-          <div class="pager">
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn">3</button>
-            <button class="page-btn">…</button>
-            <button class="page-btn"><i class="bi bi-chevron-right" style="font-size:11px"></i></button>
-          </div>
+          <span>{{ $pending->count() }} pesanan menunggu konfirmasi</span>
+          <a href="{{ route('orders.index') }}" style="font-size:13px; color:var(--primary); text-decoration:none; font-weight:600;">
+            Lihat semua pesanan →
+          </a>
         </div>
       </div>
 
