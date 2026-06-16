@@ -41,191 +41,179 @@ r.addEventListener('animationend', () => r.remove());
 let orders = [];
 
 function showToast(msg) {
-const t = document.getElementById('toast');
-t.textContent = msg;
-t.classList.add('show');
-setTimeout(() => t.classList.remove('show'), 2400);
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2400);
 }
 
 function changeQty(delta) {
-const input = document.getElementById('qty');
-let val = parseInt(input.value) || 1;
-val = Math.max(1, Math.min(99, val + delta));
-input.value = val;
-input.style.transform = 'scale(1.2)';
-setTimeout(() => input.style.transform = '', 150);
+    const input = document.getElementById('qty');
+    let val = parseInt(input.value) || 1;
+    val = Math.max(1, Math.min(99, val + delta));
+    input.value = val;
+    input.style.transform = 'scale(1.2)';
+    setTimeout(() => input.style.transform = '', 150);
 }
 
 function formatRupiah(num) {
-return 'Rp ' + num.toLocaleString('id-ID');
+    return 'Rp ' + num.toLocaleString('id-ID');
 }
 
+/* ── Tambah Pesanan ── */
 function tambahPesanan() {
-const produkSel = document.getElementById('produk');
-const varianSel = document.getElementById('varian');
-const qty = parseInt(document.getElementById('qty').value) || 1;
+    const produkSel = document.getElementById('produk');
+    const varianSel = document.getElementById('varian');
+    const qty = parseInt(document.getElementById('qty').value) || 1;
 
-if (!produkSel.value) { showToast('⚠️ Pilih produk terlebih dahulu!'); return; }
-if (!varianSel.value) { showToast('⚠️ Pilih ukuran terlebih dahulu!'); return; }
+    if (!produkSel.value) { showToast('⚠️ Pilih produk terlebih dahulu!'); return; }
+    if (!varianSel.value) { showToast('⚠️ Pilih ukuran terlebih dahulu!'); return; }
 
-const varianId   = varianSel.value;
-const harga      = parseInt(varianSel.selectedOptions[0].dataset.harga);
-const produkNama = produkSel.selectedOptions[0].text;
-const ukuran     = varianSel.selectedOptions[0].dataset.ukuran;
-const label      = `${produkNama} – ${ukuran}`;
+    const varianId   = varianSel.value;
+    const harga      = parseInt(varianSel.selectedOptions[0].dataset.harga);
+    const produkNama = produkSel.selectedOptions[0].text;
+    const ukuran     = varianSel.selectedOptions[0].dataset.ukuran;
+    const label      = `${produkNama} – ${ukuran}`;
 
-const existing = orders.find(o => o.varianId === varianId);
-if (existing) {
-    existing.qty += qty;
-} else {
-    orders.push({ varianId, label, qty, harga });
-}
+    const existing = orders.find(o => o.varianId === varianId);
+    if (existing) {
+        existing.qty += qty;
+    } else {
+        orders.push({ varianId, label, qty, harga });
+    }
 
-renderOrders();
-produkSel.selectedIndex = 0;
-document.getElementById('varian-wrap').style.display = 'none';
-varianSel.innerHTML = '<option value="" disabled selected>-- Pilih Ukuran --</option>';
-document.getElementById('qty').value = 1;
-showToast('✅ Item ditambahkan ke pesanan!');
+    renderOrders();
+    produkSel.selectedIndex = 0;
+    document.getElementById('varian-wrap').style.display = 'none';
+    varianSel.innerHTML = '<option value="" disabled selected>-- Pilih Ukuran --</option>';
+    document.getElementById('qty').value = 1;
+    showToast('✅ Item ditambahkan ke pesanan!');
 }
 
 function loadVarian(produkSel) {
-const produkId = produkSel.value;
-const varianSel = document.getElementById('varian');
-const varianWrap = document.getElementById('varian-wrap');
+    const produkId = produkSel.value;
+    const varianSel = document.getElementById('varian');
+    const varianWrap = document.getElementById('varian-wrap');
 
-varianSel.innerHTML = '<option value="" disabled selected>-- Pilih Ukuran --</option>';
+    varianSel.innerHTML = '<option value="" disabled selected>-- Pilih Ukuran --</option>';
 
-if (produkId && varianData[produkId]) {
-    varianData[produkId].forEach(v => {
-        const opt = document.createElement('option');
-        opt.value = v.id;
-        opt.dataset.harga = v.harga;
-        opt.dataset.ukuran = v.ukuran;
-        opt.textContent = `${v.ukuran} — Rp ${v.harga.toLocaleString('id-ID')}`;
-        varianSel.appendChild(opt);
-    });
-    varianWrap.style.display = '';
-} else {
-    varianWrap.style.display = 'none';
-}
+    if (produkId && varianData[produkId]) {
+        varianData[produkId].forEach(v => {
+            const opt = document.createElement('option');
+            opt.value = v.id;
+            opt.dataset.harga = v.harga;
+            opt.dataset.ukuran = v.ukuran;
+            opt.textContent = `${v.ukuran} — Rp ${v.harga.toLocaleString('id-ID')}`;
+            varianSel.appendChild(opt);
+        });
+        varianWrap.style.display = '';
+    } else {
+        varianWrap.style.display = 'none';
+    }
 }
 
 function hapusItem(idx) {
-const items = document.querySelectorAll('.order-item');
-const target = items[idx];
-if (target) {
-    target.style.transition = 'transform .2s, opacity .2s';
-    target.style.transform = 'translateX(20px)';
-    target.style.opacity = '0';
-    setTimeout(() => { orders.splice(idx, 1); renderOrders(); }, 200);
-} else {
-    orders.splice(idx, 1); renderOrders();
-}
+    const items = document.querySelectorAll('.order-item');
+    const target = items[idx];
+    if (target) {
+        target.style.transition = 'transform .2s, opacity .2s';
+        target.style.transform = 'translateX(20px)';
+        target.style.opacity = '0';
+        setTimeout(() => { orders.splice(idx, 1); renderOrders(); }, 200);
+    } else {
+        orders.splice(idx, 1); renderOrders();
+    }
 }
 
 function renderOrders() {
-const list = document.getElementById('orderList');
-const empty = document.getElementById('emptyMsg');
-const totalRow = document.getElementById('totalRow');
+    const list = document.getElementById('orderList');
+    const empty = document.getElementById('emptyMsg');
+    const totalRow = document.getElementById('totalRow');
 
-list.querySelectorAll('.order-item').forEach(el => el.remove());
+    list.querySelectorAll('.order-item').forEach(el => el.remove());
 
-if (orders.length === 0) {
-    empty.style.display = '';
-    totalRow.classList.add('d-none');
-    return;
-}
-empty.style.display = 'none';
-totalRow.classList.remove('d-none');
+    if (orders.length === 0) {
+        empty.style.display = '';
+        totalRow.classList.add('d-none');
+        return;
+    }
+    empty.style.display = 'none';
+    totalRow.classList.remove('d-none');
 
-let total = 0;
-orders.forEach((o, i) => {
-    const subtotal = o.qty * o.harga;
-    total += subtotal;
-    const div = document.createElement('div');
-    div.className = 'order-item';
-    div.innerHTML = `
-    <div>
-        <div class="order-item-name">${o.label}</div>
-        <div class="order-item-qty">${o.qty} pcs × ${formatRupiah(o.harga)}</div>
-    </div>
-    <div class="d-flex align-items-center gap-2">
-        <span class="order-item-price">${formatRupiah(subtotal)}</span>
-        <button class="btn-remove" onclick="hapusItem(${i})" title="Hapus">
-        <i class="bi bi-x-circle-fill"></i>
-        </button>
-    </div>`;
-    list.appendChild(div);
-});
+    let total = 0;
+    orders.forEach((o, i) => {
+        const subtotal = o.qty * o.harga;
+        total += subtotal;
+        const div = document.createElement('div');
+        div.className = 'order-item';
+        div.innerHTML = `
+        <div>
+            <div class="order-item-name">${o.label}</div>
+            <div class="order-item-qty">${o.qty} pcs × ${formatRupiah(o.harga)}</div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <span class="order-item-price">${formatRupiah(subtotal)}</span>
+            <button class="btn-remove" onclick="hapusItem(${i})" title="Hapus">
+            <i class="bi bi-x-circle-fill"></i>
+            </button>
+        </div>`;
+        list.appendChild(div);
+    });
 
-const tv = document.getElementById('totalVal');
-tv.textContent = formatRupiah(total);
-tv.classList.remove('total-bump');
-void tv.offsetWidth;
-tv.classList.add('total-bump');
+    const tv = document.getElementById('totalVal');
+    tv.textContent = formatRupiah(total);
+    tv.classList.remove('total-bump');
+    void tv.offsetWidth;
+    tv.classList.add('total-bump');
 }
 
 function pesanSekarang(btn, e) {
-const nama   = document.getElementById('nama').value.trim();
-const hp     = document.getElementById('hp').value.trim();
-const alamat = document.getElementById('alamat').value.trim();
+    const nama   = document.getElementById('nama').value.trim();
+    const hp     = document.getElementById('hp').value.trim();
+    const alamat = document.getElementById('alamat').value.trim();
 
-if (!nama)          { showToast('⚠️ Nama lengkap wajib diisi!'); return; }
-if (!hp)            { showToast('⚠️ Nomor HP wajib diisi!'); return; }
-if (!alamat)        { showToast('⚠️ Alamat pengiriman wajib diisi!'); return; }
-if (!orders.length) { showToast('⚠️ Belum ada pesanan!'); return; }
+    if (!nama)          { showToast('⚠️ Nama lengkap wajib diisi!'); return; }
+    if (!hp)            { showToast('⚠️ Nomor HP wajib diisi!'); return; }
+    if (!alamat)        { showToast('⚠️ Alamat pengiriman wajib diisi!'); return; }
+    if (!orders.length) { showToast('⚠️ Belum ada pesanan!'); return; }
 
-btn.disabled = true;
-btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...';
 
-const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-const payload = {
-    nama_pemesan: nama,
-    nomor_hp: hp,
-    alamat: alamat,
-    items: orders.map(o => ({ varian_id: o.varianId, qty: o.qty })),
-};
+    const payload = {
+        nama_pemesan: nama,
+        nomor_hp: hp,
+        alamat: alamat,
+        items: orders.map(o => ({ varian_id: o.varianId, qty: o.qty })),
+    };
 
-fetch('/pesan-sekarang', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': csrfToken,
-        'Accept': 'application/json',
-    },
-    body: JSON.stringify(payload),
-})
-.then(res => res.json())
-.then(data => {
-    if (data.success) {
-        // Kirim juga ke WA setelah tersimpan ke DB
-        let msg = `*PESANAN MILKYWAY* 🐐\n\n`;
-        msg += `*Nama:* ${nama}\n*No HP:* ${hp}\n*Alamat:* ${alamat}\n\n*Detail Pesanan:*\n`;
-        let total = 0;
-        orders.forEach((o, i) => {
-            const sub = o.qty * o.harga; total += sub;
-            msg += `${i+1}. ${o.label} – ${o.qty} pcs = ${formatRupiah(sub)}\n`;
-        });
-        msg += `\n*Total: ${formatRupiah(total)}*`;
-
-        const waUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(msg)}`;
-        window.open(waUrl, '_blank');
-
-        orders = [];
-        renderOrders();
-        document.getElementById('nama').value = '';
-        document.getElementById('hp').value = '';
-        document.getElementById('alamat').value = '';
-        showToast('✅ Pesanan berhasil dikirim!');
-    } else {
-        showToast('❌ Gagal mengirim pesanan.');
-    }
-})
-.catch(() => showToast('❌ Terjadi kesalahan. Coba lagi.'))
-.finally(() => {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="bi bi-whatsapp me-2"></i>Pesan Sekarang';
-});
+    fetch('/pesan-sekarang', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            orders = [];
+            renderOrders();
+            document.getElementById('nama').value = '';
+            document.getElementById('hp').value = '';
+            document.getElementById('alamat').value = '';
+            showToast('✅ Pesanan berhasil! Konfirmasi dikirim ke WhatsApp Anda.');
+        } else {
+            showToast('❌ Gagal mengirim pesanan.');
+        }
+    })
+    .catch(() => showToast('❌ Terjadi kesalahan. Coba lagi.'))
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-whatsapp me-2"></i>Pesan Sekarang';
+    });
 }
