@@ -11,25 +11,26 @@
         },
         theme: {
             button: {
-                backgroundColor: '#3B81F6',
-                right: 20,
-                bottom: 20,
-                size: 48,
+                backgroundColor: '#73D2E6',
+                right: 30,
+                bottom: 30,
+                size: 60,
                 dragAndDrop: true,
                 iconColor: 'white',
-                customIconSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
+                customIconSrc: 'img/icon1.png',
+                padding: 0,
                 autoWindowOpen: {
-                    autoOpen: true,
+                    autoOpen: false,
                     openDelay: 2,
                     autoOpenOnMobile: false
                 }
             },
             tooltip: {
                 showTooltip: true,
-                tooltipMessage: 'Hi There 👋!',
+                tooltipMessage: 'Tanya-tanya sama MilkyBot yuk!👋',
                 tooltipBackgroundColor: 'black',
                 tooltipTextColor: 'white',
-                tooltipFontSize: 16
+                tooltipFontSize: 12
             },
             disclaimer: {
                 title: 'Disclaimer',
@@ -41,46 +42,65 @@
                 blurredBackgroundColor: 'rgba(0, 0, 0, 0.4)',
                 backgroundColor: 'white'
             },
-            customCSS: ``,
+            customCSS: `
+                button[part="button"] {
+                    box-shadow: none !important;
+                    -webkit-box-shadow: none !important;
+                    filter: none !important;
+                    padding: 0 !important;
+                    background: transparent !important;
+                    overflow: visible !important;
+                    border-radius: 0 !important;
+                }
+                
+                button[part="button"] img {
+                    width: 100px !important;
+                    height: 100px !important;
+                    object-fit: contain !important;
+                    border-radius: 0 !important;
+                }
+            `,
             chatWindow: {
                 showTitle: true,
                 showAgentMessages: true,
-                title: 'Flowise Bot',
-                titleAvatarSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
-                welcomeMessage: 'Hello! This is custom welcome message',
-                errorMessage: 'This is a custom error message',
-                backgroundColor: '#ffffff',
+                title: 'MilkyBot',
+                titleAvatarSrc: 'img/icon1.png',
+                welcomeMessage: 'Halo, selamat datang di Milkyway, silahkan ada yang bisa dibantu? 🥰',
+                errorMessage: 'Maaf, MilkyBot jawab lain kali ya!',
+                backgroundColor: '#fafafa',
                 backgroundImage: 'enter image path or link',
-                height: 700,
+                height: 500,
                 width: 400,
-                fontSize: 16,
+                fontSize: 14,
                 starterPrompts: [
-                    "What is a bot?",
-                    "Who are you?"
+                    "Mau tau menu dan harganya dong!🫣",
+                    "Manfaatnya apa ya?🤔",
+                    "Bedanya sama susu sapi apa tuh?",
+                    "Aku mau pesen sekarang!😋",
                 ],
-                starterPromptFontSize: 15,
-                clearChatOnReload: false,
+                starterPromptFontSize: 12,
+                clearChatOnReload: true,
                 sourceDocsTitle: 'Sources:',
                 renderHTML: true,
                 botMessage: {
-                    backgroundColor: '#f7f8ff',
+                    backgroundColor: '#e0f7fb',
                     textColor: '#303235',
                     showAvatar: true,
-                    avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/parroticon.png'
+                    avatarSrc: 'img/icon2.png'
                 },
                 userMessage: {
-                    backgroundColor: '#3B81F6',
-                    textColor: '#ffffff',
+                    backgroundColor: '#C8F3FA',
+                    textColor: '#303235',
                     showAvatar: true,
-                    avatarSrc: 'https://raw.githubusercontent.com/zahidkhawaja/langchain-chat-nextjs/main/public/usericon.png'
+                    avatarSrc: 'img/milkybot_user_avatar.png'
                 },
                 textInput: {
-                    placeholder: 'Type your question',
+                    placeholder: 'Ketik disini ...',
                     backgroundColor: '#ffffff',
                     textColor: '#303235',
                     sendButtonColor: '#3B81F6',
                     maxChars: 50,
-                    maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 50 characters.',
+                    maxCharsWarningMessage: 'Tidak boleh lebih dari 50 karakter!',
                     autoFocus: true,
                     sendMessageSound: true,
                     sendSoundLocation: 'send_message.mp3',
@@ -95,12 +115,27 @@
                     time: true
                 },
                 footer: {
-                    textColor: '#303235',
-                    text: 'Powered by',
-                    company: 'Flowise',
-                    companyLink: 'https://flowiseai.com'
+                    textColor: 'none',
+                    text: '',
+                    company: 'Milkyway - Susu Kambing',
+                    companyLink: ''
                 }
             }
         }
     })
+</script>
+<script>
+  document.addEventListener('click', function(e) {
+    const chatbot = document.querySelector('flowise-chatbot');
+    if (chatbot && !chatbot.contains(e.target)) {
+      // Cari shadow root lalu klik button close
+      const shadow = chatbot.shadowRoot;
+      if (shadow) {
+        const closeBtn = shadow.querySelector('button[title="Close Chat"]');
+        if (closeBtn) {
+          closeBtn.click();
+        }
+      }
+    }
+  });
 </script>
