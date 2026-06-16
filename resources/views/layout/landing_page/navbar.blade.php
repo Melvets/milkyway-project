@@ -21,7 +21,7 @@
       </ul>
       <div class="d-flex gap-2 mt-3 mt-lg-0">
         <a href="/login" class="btn-login">Login</a>
-        <a href="#" class="btn-shop-nav">Shop Now</a>
+        <a href="/pesan-sekarang" class="btn-shop-nav"><i class="bi bi-cart me-2"></i>Pesan Sekarang!</a>
       </div>
     </div>
   </div>

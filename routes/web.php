@@ -1,14 +1,13 @@
 <?php
 
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [LandingPageController::class, 'index']);
 
 // Pemesanan (publik)
 Route::get('/pesan-sekarang', [PemesananController::class, 'create'])->name('pesan.create');

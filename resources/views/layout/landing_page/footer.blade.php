@@ -7,8 +7,7 @@
 
       <!-- Brand -->
       <div class="col-lg-4 col-md-6">
-        <div class="brand-name">MILKYWAY</div>
-        <div class="brand-sub mb-3">Susu Kambing</div>
+        <div class="mb-3"><img src="{{ asset('img/logo_putih.png') }}" alt="Logo Milkyway" style="max-width:160px; height:auto;"></div>
         <p>
           Milkyway hadir untuk mengubah persepsi susu kambing. Dari yang dianggap kurang, bau prengus, dan hanya untuk orang tua – menjadi pilihan yang tahu, sehat, dan dekat dengan Hidup Gen Z. Dari peternakan sendiri, kambing Saanen Swiss.
         </p>
@@ -22,6 +21,7 @@
           <li><a href="#about">Our Story</a></li>
           <li><a href="#products">Product</a></li>
           <li><a href="#why">Benefit</a></li>
+          <li><a href="#testimoni">Testimoni</a></li>
         </ul>
       </div>
 
@@ -29,10 +29,9 @@
       <div class="col-lg-2 col-md-6 col-sm-6">
         <h6>Produk</h6>
         <ul>
-          <li><a href="#">Original</a></li>
-          <li><a href="#">Cokelat</a></li>
-          <li><a href="#">Strawberry</a></li>
-          <li><a href="#">Alpukat</a></li>
+          @foreach ($produks as $p)
+            <li><a href="{{ route('pesan.create') }}">{{ $p->nama }}</a></li>
+          @endforeach
         </ul>
       </div>
 
@@ -64,6 +63,6 @@
     </div>
 
     <hr class="footer-divider mt-5 mb-3" />
-    <p class="footer-bottom text-center mb-0">© 2020 Milkyway. All rights reserved.</p>
+    <p class="footer-bottom text-center mb-0">©2026 Milkyway. All rights reserved.</p>
   </div>
 </footer>

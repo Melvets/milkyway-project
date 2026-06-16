@@ -7,7 +7,7 @@
       <!-- Image -->
       <div class="col-lg-6">
         <div class="about-img-wrap">
-          <img src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=700&q=80"
+          <img src="img/kandang_kambing.png"
                alt="Peternakan kambing Milkyway" />
           <div class="about-badge">
             <strong>Sejak 2024</strong>

@@ -23,7 +23,7 @@
                     Mudah dicerna, kaya kalsium, dan cocok untuk gaya hidup sehatmu.
                 </p>
             <div class="d-flex flex-wrap gap-3">
-                <a href="/pesan-sekarang" class=" btn-primary-brand">Shop Now</a>
+                <a href="/pesan-sekarang" class=" btn-primary-brand"><i class="bi bi-cart me-2"></i>Pesan Sekarang!</a>
                 <a href="#about" class="btn-outline-brand">Learn More</a>
             </div>
         </div>

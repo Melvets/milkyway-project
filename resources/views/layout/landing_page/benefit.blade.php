@@ -50,7 +50,7 @@
       <!-- Goat image -->
       <div class="col-lg-6 order-lg-2 order-1">
         <div class="why-img-wrap">
-          <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=700&q=80"
+          <img src="img/produk.png"
                alt="Kambing Saanen Milkyway" />
           <div class="why-img-badge">
             <i class="bi bi-patch-check-fill"></i>

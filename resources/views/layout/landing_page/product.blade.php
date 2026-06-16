@@ -2,7 +2,6 @@
      PRODUCTS
 ════════════════════════════════════════ -->
 <section class="section-products py-5 py-lg-6" id="products">
-  <!-- decorative background elements -->
   <div class="prod-dot-grid"></div>
   <div class="prod-deco prod-deco-1"></div>
   <div class="prod-deco prod-deco-2"></div>
@@ -19,58 +18,66 @@
       </p>
     </div>
 
-    <!-- Product layout: side cards + 2 bestsellers in center -->
     <div class="products-layout">
 
-      <!-- Strawberry (side) -->
-      <div class="col-xl-2 col-lg-6 col-md-6 col-sm-6">
-        <div class="product-card">
-          <img src="https://images.unsplash.com/photo-1553909489-cd47e0907980?w=200&q=80" alt="Strawberry" />
-          <div class="product-name">Strawberry</div>
-          <div class="product-desc mb-3">Stroberi manis alami</div>
-          <div class="product-price">Rp10.000/250ml<br>Rp30.000/1L</div>
-          <button class="btn-beli">Beli Sekarang</button>
-        </div>
-      </div>
+      @forelse ($produks as $produk)
+        <div>
+          <div class="product-card {{ $produk->status === 'best seller' ? 'bestseller' : '' }}"
+            style="display:flex; flex-direction:column; height:100%;">
 
-      <!-- Original (BESTSELLER) -->
-      <div class="col-xl-2 col-lg-6 col-md-6 col-sm-6">
-        <div class="product-card bestseller">
-          <span class="badge-bestseller">Best Seller</span>
-          <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300&q=80" alt="Original" />
-          <div class="product-name">Original</div>
-          <div class="product-desc mb-3">Murni, segar, tanpa prengus — varian paling digemari</div>
-          <div class="product-price">Rp10.000/250ml<br>Rp30.000/1L</div>
-          <button class="btn-beli">🛒 Beli Sekarang</button>
-        </div>
-      </div>
+            {{-- Badge status (fixed height area) --}}
+            <div style="min-height:28px; margin-bottom:4px;">
+              @if ($produk->status === 'best seller')
+                <span class="badge-bestseller">⭐ Best Seller</span>
+              @elseif ($produk->status === 'new')
+                <span class="badge-bestseller" style="background: linear-gradient(135deg, #00c853, #1de9b6); color:#fff;">✨ New</span>
+              @endif
+            </div>
 
-      <!-- Cokelat (BESTSELLER) -->
-      <div class="col-xl-2 col-lg-6 col-md-6 col-sm-6">
-        <div class="product-card bestseller">
-          <span class="badge-bestseller">Best Seller</span>
-          <img src="https://images.unsplash.com/photo-1541250848049-b8d7dc8c7e7c?w=300&q=80" alt="Cokelat" />
-          <div class="product-name">Cokelat</div>
-          <div class="product-desc mb-3">Cokelat lembut & lezat — favorit anak-anak & remaja</div>
-          <div class="product-price">Rp10.000/250ml<br>Rp30.000/1L</div>
-          <button class="btn-beli">🛒 Beli Sekarang</button>
-        </div>
-      </div>
+            {{-- Gambar (fixed height) --}}
+            <div style="height:160px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+              @if ($produk->gambar)
+                <img src="{{ asset($produk->gambar) }}" alt="{{ $produk->nama }}"
+                  style="max-height:160px; max-width:100%; object-fit:contain;" />
+              @else
+                <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300&q=80"
+                  alt="{{ $produk->nama }}"
+                  style="max-height:160px; max-width:100%; object-fit:contain;" />
+              @endif
+            </div>
 
-      <!-- Alpukat (side) -->
-      <div class="col-xl-2 col-lg-6 col-md-6 col-sm-6">
-        <div class="product-card">
-          <img src="https://images.unsplash.com/photo-1519162808019-7de1683fa2ad?w=200&q=80" alt="Alpukat" />
-          <div class="product-name">Alpukat</div>
-          <div class="product-desc mb-3">Alpukat creamy bergizi</div>
-          <div class="product-price">Rp10.000/250ml<br>Rp30.000/1L</div>
-          <button class="btn-beli">Beli Sekarang</button>
+            {{-- Nama --}}
+            <div class="product-name" style="margin-top:12px;">{{ $produk->nama }}</div>
+
+            {{-- Deskripsi (flex-grow agar mendorong harga & tombol ke bawah) --}}
+            <div class="product-desc mb-3" style="flex:1;">
+              {{ $produk->deskripsi ?? 'Susu kambing segar berkualitas tinggi' }}
+            </div>
+
+            {{-- Harga --}}
+            <div class="product-price" style="min-height:44px;">
+              @forelse ($produk->varian as $v)
+                Rp{{ number_format($v->harga, 0, ',', '.') }}/{{ $v->ukuran }}<br>
+              @empty
+                <span style="font-size:.8rem; opacity:.7;">Hubungi untuk harga</span>
+              @endforelse
+            </div>
+
+            {{-- Tombol selalu di bawah --}}
+            <a href="{{ route('pesan.create') }}" class="btn-beli" style="margin-top:auto;">
+              {{ $produk->status === 'best seller' ? '🛒 ' : '' }}Beli Sekarang
+            </a>
+
+          </div>
         </div>
-      </div>
+      @empty
+        <div class="text-center w-100" style="color:rgba(255,255,255,.65);">
+          Produk belum tersedia.
+        </div>
+      @endforelse
 
     </div>
 
-    <!-- CTA bottom -->
     <div class="text-center mt-5">
       <p style="color:rgba(255,255,255,.65);font-size:.88rem;margin-bottom:2rem;">
         <i class="bi bi-truck me-1" style="color:var(--amber)"></i>
@@ -78,8 +85,8 @@
         <i class="bi bi-shield-check me-1" style="color:var(--amber)"></i>
         Segar Garansi
       </p>
-      <a href="https://wa.me/6288200347409" target="_blank" class="btn-primary-brand" style="font-size:1rem;">
-        <i class="bi bi-whatsapp me-2"></i>Pesan via WhatsApp
+      <a href="{{ route('pesan.create') }}" class="btn-primary-brand" style="font-size:1rem;">
+        <i class="bi bi-cart me-2"></i>Pesan Sekarang
       </a>
     </div>
 
