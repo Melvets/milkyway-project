@@ -83,7 +83,9 @@
                 <td>
                   @foreach ($p->items as $item)
                     <div style="font-size:12px;">
-                      {{ $item->varian->produk->nama }} {{ $item->varian->ukuran }} ×{{ $item->qty }}
+                      {{ $item->varian?->produk?->nama ?? '[Produk dihapus]' }}
+                      {{ $item->varian?->ukuran ?? '' }}
+                      ×{{ $item->qty }}
                     </div>
                   @endforeach
                 </td>
@@ -186,7 +188,10 @@
             <div class="order-card-row">
               <div class="order-card-meta" style="flex-direction:column; align-items:flex-start;">
                 @foreach ($p->items as $item)
-                  <span style="font-size:12px;">{{ $item->varian->produk->nama }} {{ $item->varian->ukuran }} ×{{ $item->qty }}</span>
+                  <span style="font-size:12px;">
+                    {{ $item->varian?->produk?->nama ?? '[Produk dihapus]' }}
+                    {{ $item->varian?->ukuran ?? '' }} ×{{ $item->qty }}
+                  </span>
                 @endforeach
                 <strong style="font-size:13px; margin-top:4px;">Rp {{ number_format($p->items->sum('subtotal'), 0, ',', '.') }}</strong>
               </div>

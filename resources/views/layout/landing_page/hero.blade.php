@@ -2,32 +2,61 @@
      HERO
 ════════════════════════════════════════ -->
 <section class="hero" id="hero">
-    <!-- decorative bubbles -->
-    <div class="hero-bubble" style="width:80px;height:80px;top:12%;left:5%;animation-delay:0s;"></div>
-    <div class="hero-bubble" style="width:40px;height:40px;top:60%;left:2%;animation-delay:1.5s;"></div>
-    <div class="hero-bubble" style="width:55px;height:55px;top:75%;right:5%;animation-delay:.8s;"></div>
 
-    <div class="container py-5">
-        <div class="row align-items-center g-4">
-        <!-- Text -->
-        <div class="col-lg-6 col-md-7">
-            <p class="mb-2" style="font-weight:800;font-size:.85rem;letter-spacing:2px;color:var(--amber);text-transform:uppercase;">
-                100% Organic
-            </p>
-            <h1 class="hero-title mb-1">
-                Susu Kambing<br><span class="highlight">Murni</span>
-            </h1>
-            <div class="divider-line my-3"></div>
+    <div class="container py-5 position-relative" style="z-index:3;">
+        <div class="row align-items-center g-4 min-vh-hero">
+
+            {{-- Left: copy --}}
+            <div class="col-lg-6 col-md-8">
+                <span class="hero-tag">
+                    <i class="bi bi-patch-check-fill"></i>
+                    100% Organic · Dari Peternakan Sendiri
+                </span>
+                <h1 class="hero-title mt-3 mb-0">
+                    Susu Kambing<br>Murni <br>
+                    <span class="hero-highlight">Milkyway</span><br>
+                </h1>
+                <div class="hero-divider"></div>
                 <p class="hero-sub mb-4">
                     Mulai harimu dengan kesegaran alami susu kambing.
                     Mudah dicerna, kaya kalsium, dan cocok untuk gaya hidup sehatmu.
                 </p>
-            <div class="d-flex flex-wrap gap-3">
-                <a href="/pesan-sekarang" class=" btn-primary-brand"><i class="bi bi-cart me-2"></i>Pesan Sekarang!</a>
-                <a href="#about" class="btn-outline-brand">Learn More</a>
+                <div class="d-flex flex-wrap gap-3 mb-4">
+                    <a href="/pesan-sekarang" class="btn-primary-brand">
+                        <i class="bi bi-cart me-2"></i>Pesan Sekarang
+                    </a>
+                    <a href="#about" class="btn-outline-brand"
+                       style="border-color:var(--navy);color:var(--navy);background:rgba(3,4,96,.06);backdrop-filter:blur(6px);">
+                        Pelajari Lebih
+                    </a>
+                </div>
+
+                {{-- Social proof --}}
+                <div class="hero-social-proof">
+                    <div class="hero-proof-item">
+                        <span class="hero-proof-num">500+</span>
+                        <span class="hero-proof-label">Pelanggan</span>
+                    </div>
+                    <div class="hero-proof-divider"></div>
+                    <div class="hero-proof-item">
+                        <span class="hero-proof-num">5 ⭐</span>
+                        <span class="hero-proof-label">Rating</span>
+                    </div>
+                    <div class="hero-proof-divider"></div>
+                    <div class="hero-proof-item">
+                        <span class="hero-proof-num">100%</span>
+                        <span class="hero-proof-label">Alami</span>
+                    </div>
+                </div>
             </div>
+
         </div>
-        <!-- Image -->
-        </div>
+    </div>
+
+    {{-- Wave divider --}}
+    <div class="hero-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 60" preserveAspectRatio="none" style="display:block; width:100%; height:60px;">
+            <path fill="#ffffff" d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z"/>
+        </svg>
     </div>
 </section>

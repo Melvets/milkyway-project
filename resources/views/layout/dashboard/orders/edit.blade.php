@@ -121,16 +121,33 @@
 
             <div id="item-list" class="d-flex flex-column gap-2">
               @foreach ($pesanan->items as $i => $item)
+                @php
+                  $varianAda    = $item->varian !== null;
+                  $produkAda    = $varianAda && $item->varian->produk !== null;
+                  $produkId     = $produkAda ? $item->varian->produk_id : 0;
+                  $varianId     = $varianAda ? $item->varian_id : 0;
+                @endphp
                 <div id="item-row-{{ $i }}" class="p-3 rounded-3" style="background:#f8fdfe; border:1px solid rgba(200,243,250,.7);">
+                  @if (!$varianAda || !$produkAda)
+                    {{-- Varian/produk sudah dihapus --}}
+                    <div class="d-flex align-items-center gap-2" style="font-size:12px; color:#e53935;">
+                      <i class="bi bi-exclamation-triangle"></i>
+                      <span>Item ini produknya sudah dihapus (subtotal: Rp {{ number_format($item->subtotal, 0, ',', '.') }})</span>
+                      <button type="button" onclick="removeItem({{ $i }})" class="act-btn act-delete ms-auto" style="margin-top:0;">
+                        <i class="bi bi-trash3"></i>
+                      </button>
+                    </div>
+                    {{-- Kirim varian_id dummy agar form tetap valid jika dihapus --}}
+                  @else
                   <div class="row g-2 align-items-end">
                     <div class="col-5">
                       <label class="form-label mb-1" style="font-size:11px; color:#4a5e7a;">Produk</label>
                       <select name="items[{{ $i }}][produk_id]" class="form-select form-select-sm"
-                        onchange="updateVarian(this, {{ $i }}, {{ $item->varian->produk_id }}, {{ $item->varian_id }})">
+                        onchange="updateVarian(this, {{ $i }}, {{ $produkId }}, {{ $varianId }})">
                         <option value="">-- Pilih Produk --</option>
                         @foreach ($produks as $p)
                           <option value="{{ $p->id }}"
-                            {{ $item->varian->produk_id == $p->id ? 'selected' : '' }}>
+                            {{ $produkId == $p->id ? 'selected' : '' }}>
                             {{ $p->nama }}
                           </option>
                         @endforeach
@@ -142,7 +159,7 @@
                         @foreach ($item->varian->produk->varian as $v)
                           <option value="{{ $v->id }}"
                             data-harga="{{ $v->harga }}"
-                            {{ $item->varian_id == $v->id ? 'selected' : '' }}>
+                            {{ $varianId == $v->id ? 'selected' : '' }}>
                             {{ $v->ukuran }} — Rp {{ number_format($v->harga, 0, ',', '.') }}
                           </option>
                         @endforeach
@@ -160,6 +177,7 @@
                       </button>
                     </div>
                   </div>
+                  @endif
                 </div>
               @endforeach
             </div>

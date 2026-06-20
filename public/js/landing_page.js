@@ -6,10 +6,21 @@ a.addEventListener('click', e => {
 });
 });
 
-// Navbar shrink on scroll
-window.addEventListener('scroll', () => {
-document.querySelector('.navbar').classList.toggle('shadow-sm', window.scrollY > 40);
-});
+// Navbar glassmorphism on scroll
+(function () {
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+    const onScroll = () => {
+        if (window.scrollY > 40) {
+            navbar.classList.add('navbar--scrolled');
+            navbar.classList.remove('shadow-sm');
+        } else {
+            navbar.classList.remove('navbar--scrolled');
+        }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // jalankan sekali saat load
+})();
 
 // Simple fade-in on scroll
 const observer = new IntersectionObserver((entries) => {

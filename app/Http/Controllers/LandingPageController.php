@@ -8,7 +8,11 @@ class LandingPageController extends Controller
 {
     public function index()
     {
-        $produks = Produk::with('varian')->get();
+        // Urutkan: best seller → new → default
+        $produks = Produk::with('varian')
+            ->orderByRaw("FIELD(status, 'best seller', 'new', 'default')")
+            ->get();
+
         return view('index', compact('produks'));
     }
 }

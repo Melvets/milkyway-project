@@ -1,94 +1,116 @@
+<!-- Wave: About (white) → Products (sky2) -->
+<div style="line-height:0; background:#fff;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 72" preserveAspectRatio="none" style="display:block; width:100%; height:72px;">
+        <path fill="#C8F3FA" d="M0,36 C240,72 480,0 720,36 C960,72 1200,0 1440,36 L1440,72 L0,72 Z"/>
+    </svg>
+</div>
+
 <!-- ═══════════════════════════════════════
      PRODUCTS
 ════════════════════════════════════════ -->
-<section class="section-products py-5 py-lg-6" id="products">
-  <div class="prod-dot-grid"></div>
-  <div class="prod-deco prod-deco-1"></div>
-  <div class="prod-deco prod-deco-2"></div>
-  <div class="prod-deco prod-deco-3"></div>
-  <div class="prod-deco prod-deco-4"></div>
+<section class="section-products" id="products">
 
-  <div class="container py-4" style="position:relative;z-index:1;">
+  <div class="container">
+
+    {{-- Header --}}
     <div class="text-center mb-5">
-      <p class="section-label">Varian Pilihan</p>
-      <h2 class="section-title">Pilihan Produk <span class="accent">Milkyway</span></h2>
-      <div class="divider-line mx-auto"></div>
-      <p style="color:rgba(255,255,255,.65);font-size:.92rem;max-width:480px;margin:0 auto;">
-        Varian terbaik dari peternakan sendiri, segar dan bermutu — langsung ke tanganmu.
+      <p class="prod-label-top">VARIAN PILIHAN</p>
+      <h2 class="prod-title">Pilihan Produk <em>Milkyway</em></h2>
+      <p class="prod-subtitle">
+        Varian terbaik dari peternakan sendiri, langsung ke tanganmu.
       </p>
     </div>
 
-    <div class="products-layout">
+    {{-- Product Cards --}}
+    <div class="prod-scroll-wrap">
+      <div class="prod-cards-row">
 
-      @forelse ($produks as $produk)
-        <div>
-          <div class="product-card {{ $produk->status === 'best seller' ? 'bestseller' : '' }}"
-            style="display:flex; flex-direction:column; height:100%;">
+        @forelse ($produks as $produk)
+          @php $isBs = $produk->status === 'best seller'; @endphp
+          <div class="prod-card {{ $isBs ? 'prod-card--dark' : '' }}">
 
-            {{-- Badge status (fixed height area) --}}
-            <div style="min-height:28px; margin-bottom:4px;">
-              @if ($produk->status === 'best seller')
-                <span class="badge-bestseller">⭐ Best Seller</span>
-              @elseif ($produk->status === 'new')
-                <span class="badge-bestseller" style="background: linear-gradient(135deg, #00c853, #1de9b6); color:#fff;">✨ New</span>
-              @endif
-            </div>
+            {{-- Badge --}}
+            @if ($isBs)
+              <span class="prod-badge prod-badge--bs">⭐ BEST SELLER</span>
+            @elseif ($produk->status === 'new')
+              <span class="prod-badge prod-badge--new">✦ NEW</span>
+            @endif
 
-            {{-- Gambar (fixed height) --}}
-            <div style="height:160px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+            {{-- Gambar --}}
+            <div class="prod-img-wrap {{ $isBs ? 'prod-img-wrap--dark' : '' }}">
               @if ($produk->gambar)
-                <img src="{{ asset($produk->gambar) }}" alt="{{ $produk->nama }}"
-                  style="max-height:160px; max-width:100%; object-fit:contain;" />
+                <img src="{{ asset($produk->gambar) }}" alt="{{ $produk->nama }}">
               @else
-                <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?w=300&q=80"
-                  alt="{{ $produk->nama }}"
-                  style="max-height:160px; max-width:100%; object-fit:contain;" />
+                <img src="img/produk/produk_original.png" alt="{{ $produk->nama }}">
               @endif
             </div>
 
-            {{-- Nama --}}
-            <div class="product-name" style="margin-top:12px;">{{ $produk->nama }}</div>
-
-            {{-- Deskripsi (flex-grow agar mendorong harga & tombol ke bawah) --}}
-            <div class="product-desc mb-3" style="flex:1;">
+            {{-- Info --}}
+            <div class="prod-name {{ $isBs ? 'prod-name--light' : '' }}">{{ $produk->nama }}</div>
+            <div class="prod-desc {{ $isBs ? 'prod-desc--light' : '' }}">
               {{ $produk->deskripsi ?? 'Susu kambing segar berkualitas tinggi' }}
             </div>
 
             {{-- Harga --}}
-            <div class="product-price" style="min-height:44px;">
-              @forelse ($produk->varian as $v)
-                Rp{{ number_format($v->harga, 0, ',', '.') }}/{{ $v->ukuran }}<br>
+            <div class="prod-price {{ $isBs ? 'prod-price--light' : '' }}">
+              @forelse ($produk->varian as $i => $v)
+                @if ($i === 0)
+                  Rp{{ number_format($v->harga, 0, ',', '.') }}
+                @endif
               @empty
-                <span style="font-size:.8rem; opacity:.7;">Hubungi untuk harga</span>
+                —
+              @endforelse
+            </div>
+            <div class="prod-price-sub {{ $isBs ? 'prod-price-sub--light' : '' }}">
+              @forelse ($produk->varian as $v)
+                {{ $v->ukuran }}@if (!$loop->last) · @endif
+              @empty
+                &nbsp;
               @endforelse
             </div>
 
-            {{-- Tombol selalu di bawah --}}
-            <a href="{{ route('pesan.create') }}" class="btn-beli" style="margin-top:auto;">
-              {{ $produk->status === 'best seller' ? '🛒 ' : '' }}Beli Sekarang
+            {{-- Tombol --}}
+            <a href="{{ route('pesan.create') }}"
+              class="prod-btn {{ $isBs ? 'prod-btn--light' : '' }}">
+              Beli Sekarang
             </a>
 
           </div>
-        </div>
-      @empty
-        <div class="text-center w-100" style="color:rgba(255,255,255,.65);">
-          Produk belum tersedia.
-        </div>
-      @endforelse
+        @empty
+          <p style="color:#4a5e7a; text-align:center; width:100%;">Produk belum tersedia.</p>
+        @endforelse
 
+      </div>
     </div>
 
-    <div class="text-center mt-5">
-      <p style="color:rgba(255,255,255,.65);font-size:.88rem;margin-bottom:2rem;">
-        <i class="bi bi-truck me-1" style="color:var(--amber)"></i>
-        Pengiriman khusus Kota Semarang &nbsp;·&nbsp;
-        <i class="bi bi-shield-check me-1" style="color:var(--amber)"></i>
-        Segar Garansi
-      </p>
-      <a href="{{ route('pesan.create') }}" class="btn-primary-brand" style="font-size:1rem;">
-        <i class="bi bi-cart me-2"></i>Pesan Sekarang
-      </a>
+    {{-- Footer note --}}
+    <div class="prod-footer-wrap">
+      <div class="prod-footer-note">
+        <span>🧡 Pengiriman khusus Kota Semarang</span>
+        <span class="prod-sep">·</span>
+        <span>✅ Segar Garansi</span>
+      </div>
     </div>
 
   </div>
 </section>
+
+<script>
+(function () {
+  const cards = document.querySelectorAll('.prod-card');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // delay bertahap tiap card
+        const idx = Array.from(cards).indexOf(entry.target);
+        setTimeout(() => {
+          entry.target.classList.add('prod-visible');
+        }, idx * 80);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  cards.forEach(card => io.observe(card));
+})();
+</script>
