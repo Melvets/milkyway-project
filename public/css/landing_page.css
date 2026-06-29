@@ -637,9 +637,9 @@ body {
 /* ═══════════════════════════════════════
    TESTIMONI — sky2/sky3 background
 ════════════════════════════════════════ */
-#testimoni h2 em {
+#testimoni h2 span em {
     font-family: "Caveat Brush", cursive;
-    font-weight: 400;
+    font-weight: 500;
     font-style: normal;
 }
 

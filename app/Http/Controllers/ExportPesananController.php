@@ -81,6 +81,9 @@ class ExportPesananController extends Controller
             $sheet->setCellValue("A{$row}", '#MW-' . str_pad($p->id, 4, '0', STR_PAD_LEFT));
             $sheet->setCellValue("B{$row}", $p->nama_pemesan);
             $sheet->setCellValue("C{$row}", $p->nomor_hp);
+            // Format nomor HP sebagai text agar tidak terpotong Excel
+            $sheet->getStyle("C{$row}")->getNumberFormat()
+                  ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
             $sheet->setCellValue("D{$row}", $p->alamat);
             $sheet->setCellValue("E{$row}", $detail);
             $sheet->setCellValue("F{$row}", $total);

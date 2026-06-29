@@ -54,6 +54,9 @@ class PemesananController extends Controller
         $fonnte->confirmToCustomer($pesanan);
         $fonnte->notifyAdmin($pesanan);
 
+        // Set session agar halaman sukses hanya bisa diakses setelah memesan
+        session(['from_order' => true, 'pesanan_id' => $pesanan->id]);
+
         return response()->json([
             'success'      => true,
             'message'      => 'Pesanan berhasil dikirim! Konfirmasi telah dikirim ke WhatsApp Anda.',
@@ -67,6 +70,9 @@ class PemesananController extends Controller
      */
     public function sukses()
     {
+        if (!session('from_order')) {
+            return redirect()->route('pesan.create');
+        }
         return view('pesan-sukses');
     }
 }

@@ -82,7 +82,15 @@
           <button type="submit" class="auth-btn-primary w-100">
             <i class="bi bi-box-arrow-in-right me-2"></i>Masuk
           </button>
-          
+
+          <p class="auth-footer-text mt-4">
+            Belum punya akun?
+            @if(config('app.register_token'))
+              <a href="{{ route('register') }}?token={{ config('app.register_token') }}" class="auth-link fw-600">Daftar sekarang</a>
+            @else
+              <span style="font-size:13px; color:#4a5e7a;">Hubungi admin untuk mendaftar</span>
+            @endif
+          </p>
         </form>
       </div>
     </div>

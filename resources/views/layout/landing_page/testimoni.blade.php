@@ -12,7 +12,7 @@
   <div class="container">
     <div class="text-center mb-5">
       <p class="section-label">Temukan Kami</p>
-      <h2 class="section-title">Lokasi <span class="accent"><em>Milkyway</em></span></h2>
+      <h2 class="section-title">Lokasi <span class="accent"><em style="font-family: 'Caveat Brush', cursive; font-weight: 500; font-style: normal;">Milkyway</em></span></h2>
       <div class="divider-line mx-auto"></div>
       <p class="testi-subtitle">Kunjungi langsung toko kami atau hubungi untuk pemesanan.</p>
     </div>

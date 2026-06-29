@@ -16,15 +16,15 @@ Route::post('/pesan-sekarang', [PemesananController::class, 'store'])->name('pes
 Route::get('/pesan-sukses', [PemesananController::class, 'sukses'])->name('pesan.sukses');
 
 // Dashboard & Orders (protected)
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [PesananController::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard/orders', [PesananController::class, 'orders'])->name('orders.index');
+    Route::get('/dashboard/orders/export', [ExportPesananController::class, 'export'])->name('orders.export');
     Route::get('/dashboard/orders/{id}/edit', [PesananController::class, 'edit'])->name('orders.edit');
     Route::put('/dashboard/orders/{id}', [PesananController::class, 'update'])->name('orders.update');
     Route::post('/dashboard/orders/{id}/terima', [PesananController::class, 'terima'])->name('orders.terima');
     Route::post('/dashboard/orders/{id}/tolak', [PesananController::class, 'tolak'])->name('orders.tolak');
     Route::post('/dashboard/orders/{id}/selesai', [PesananController::class, 'selesai'])->name('orders.selesai');
-    Route::get('/dashboard/orders/export', [ExportPesananController::class, 'export'])->name('orders.export');
 });
 
 Route::resource('/dashboard/produk', ProdukController::class)->middleware('auth');
