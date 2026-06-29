@@ -9,23 +9,12 @@
       <button class="menu-toggle" id="menuToggle">
         <i class="bi bi-list"></i>
       </button>
-      <div class="search-box">
-        <i class="bi bi-search"></i>
-        <input type="text" placeholder="Search data"/>
+      <div class="">
+        <p>Milkyway - Susu Kambing</p>
       </div>
       <div class="topbar-right">
-        <div class="topbar-icon">
-          <i class="bi bi-bell"></i>
-          <span class="badge-dot"></span>
-        </div>
-        <div class="topbar-icon" style="display:none" id="topSearchBtn">
-          <i class="bi bi-search"></i>
-        </div>
-        <div class="topbar-icon">
-          <i class="bi bi-question-circle"></i>
-        </div>
         <div class="user-chip">
-          <div class="user-avatar">AM</div>
+          <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</div>
           <span class="user-chip-name">{{ Auth::user()->name }}</span>
         </div>
       </div>

@@ -1,49 +1,109 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Milkyway</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="auth-body">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+  <div class="auth-wrapper">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    {{-- Panel kiri: ilustrasi --}}
+    <div class="auth-left d-none d-lg-flex">
+      <div class="auth-left-top">
+        <img src="{{ asset('img/logo_putih.png') }}" alt="Milkyway" class="auth-logo-white">
+      </div>
+    </div>
+
+    {{-- Panel kanan: form --}}
+    <div class="auth-right">
+      <div class="auth-card">
+
+        <div class="auth-card-logo d-lg-none mb-4">
+          <img src="{{ asset('img/logo_fiks.png') }}" alt="Milkyway" style="max-width:140px;">
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="auth-card-header">
+          <h3 class="auth-card-title">Masuk ke Akun</h3>
+          <p class="auth-card-sub">Masukkan email dan password Anda</p>
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+        {{-- Session status --}}
+        @if (session('status'))
+          <div class="auth-alert auth-alert-success">{{ session('status') }}</div>
+        @endif
+
+        <form method="POST" action="{{ route('login') }}">
+          @csrf
+
+          {{-- Email --}}
+          <div class="auth-field">
+            <label class="auth-label" for="email">Email</label>
+            <div class="auth-input-wrap">
+              <i class="bi bi-envelope auth-input-icon"></i>
+              <input id="email" type="email" name="email" value="{{ old('email') }}"
+                class="auth-input @error('email') is-invalid @enderror"
+                placeholder="nama@email.com" required autofocus autocomplete="username">
+            </div>
+            @error('email')<div class="auth-error">{{ $message }}</div>@enderror
+          </div>
+
+          {{-- Password --}}
+          <div class="auth-field">
+            <label class="auth-label" for="password">Password</label>
+            <div class="auth-input-wrap">
+              <i class="bi bi-lock auth-input-icon"></i>
+              <input id="password" type="password" name="password"
+                class="auth-input @error('password') is-invalid @enderror"
+                placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="auth-eye" onclick="togglePwd('password', this)">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            @error('password')<div class="auth-error">{{ $message }}</div>@enderror
+          </div>
+
+          {{-- Remember + Forgot --}}
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <label class="auth-check">
+              <input type="checkbox" name="remember" id="remember_me">
+              <span>Ingat saya</span>
             </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+              <a href="{{ route('password.request') }}" class="auth-link">Lupa password?</a>
             @endif
+          </div>
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
+          <button type="submit" class="auth-btn-primary w-100">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Masuk
+          </button>
 
-        <a href="/register">Register</a>
-    </form>
-</x-guest-layout>
+          <p class="auth-footer-text mt-4">
+            Belum punya akun? <a href="{{ route('register') }}" class="auth-link fw-600">Daftar sekarang</a>
+          </p>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function togglePwd(id, btn) {
+      const input = document.getElementById(id);
+      const icon  = btn.querySelector('i');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'bi bi-eye';
+      }
+    }
+  </script>
+</body>
+</html>

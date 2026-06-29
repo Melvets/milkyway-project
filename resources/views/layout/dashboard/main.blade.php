@@ -27,11 +27,11 @@
       <div class="page-header">
         <div class="page-date" id="page-date"></div>
         <h2>Selamat datang, <span class="page-name">{{ Auth::user()->name }}</span></h2>
-        <p class="page-desc">Total pesanan hari ini <strong class="highlight-green">+12%</strong> dibanding kemarin. Stok produk masih aman dan 3 pengiriman baru masuk pagi ini.</p>
+        <p class="page-desc">Pantau dan kelola semua pesanan susu kambing Milkyway dari satu tempat. Terima, proses, dan selesaikan pesanan dengan mudah.</p>
         <div class="page-title-sub">
           <span>Order Management</span>
           <span class="sep">·</span>
-          <span>Track and process customer milk order</span>
+          <span>Kelola pesanan pelanggan susu kambing Milkyway</span>
         </div>
       </div>
 

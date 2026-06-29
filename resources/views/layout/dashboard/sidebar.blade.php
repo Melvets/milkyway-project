@@ -28,7 +28,7 @@
 
   <nav class="sidebar-nav">
     <a class="nav-item-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
-      <i class="bi bi-cart3"></i> Dashboard
+      <i class="bi bi-house"></i> Dashboard
     </a>
     <a class="nav-item-link {{ request()->routeIs('orders*') ? 'active' : '' }}" href="{{ route('orders.index') }}">
       <i class="bi bi-cart3"></i> Orders

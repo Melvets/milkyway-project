@@ -6,20 +6,19 @@
 
   <!-- Topbar -->
   <div class="topbar">
-    <button class="menu-toggle" id="menuToggle"><i class="bi bi-list"></i></button>
-    <div class="search-box">
-      <i class="bi bi-search"></i>
-      <input type="text" placeholder="Search data"/>
-    </div>
-    <div class="topbar-right">
-      <div class="topbar-icon"><i class="bi bi-bell"></i><span class="badge-dot"></span></div>
-      <div class="topbar-icon"><i class="bi bi-question-circle"></i></div>
-      <div class="user-chip">
-        <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</div>
-        <span class="user-chip-name">{{ Auth::user()->name }}</span>
+      <button class="menu-toggle" id="menuToggle">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="">
+        <p>Milkyway - Susu Kambing</p>
+      </div>
+      <div class="topbar-right">
+        <div class="user-chip">
+          <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</div>
+          <span class="user-chip-name">{{ Auth::user()->name }}</span>
+        </div>
       </div>
     </div>
-  </div>
 
   <div class="page">
 
@@ -80,11 +79,33 @@
 
             <div>
               <label class="form-label" style="font-size:13px; color:#4a5e7a;">Status</label>
-              <select name="status" class="form-select form-select-sm">
-                <option value="Pending"  {{ old('status', $pesanan->status) === 'Pending'  ? 'selected' : '' }}>Pending</option>
-                <option value="Diproses" {{ old('status', $pesanan->status) === 'Diproses' ? 'selected' : '' }}>Diproses</option>
-                <option value="Selesai"  {{ old('status', $pesanan->status) === 'Selesai'  ? 'selected' : '' }}>Selesai</option>
-              </select>
+              <div class="d-flex gap-2 flex-wrap mt-1">
+
+                <label class="status-radio-label">
+                  <input type="radio" name="status" value="Pending"
+                    {{ old('status', $pesanan->status) === 'Pending' ? 'checked' : '' }}>
+                  <span class="status-radio-pill s-pending-pill">
+                    <i class="bi bi-clock me-1"></i>Pending
+                  </span>
+                </label>
+
+                <label class="status-radio-label">
+                  <input type="radio" name="status" value="Diproses"
+                    {{ old('status', $pesanan->status) === 'Diproses' ? 'checked' : '' }}>
+                  <span class="status-radio-pill s-process-pill">
+                    <i class="bi bi-arrow-repeat me-1"></i>Diproses
+                  </span>
+                </label>
+
+                <label class="status-radio-label">
+                  <input type="radio" name="status" value="Selesai"
+                    {{ old('status', $pesanan->status) === 'Selesai' ? 'checked' : '' }}>
+                  <span class="status-radio-pill s-done-pill">
+                    <i class="bi bi-check-circle me-1"></i>Selesai
+                  </span>
+                </label>
+
+              </div>
             </div>
           </div>
         </div>
