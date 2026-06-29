@@ -73,6 +73,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Register Token
+    |--------------------------------------------------------------------------
+    | Token rahasia untuk mengakses halaman register. Ubah di file .env.
+    | Akses: /register?token=YOUR_TOKEN
+    */
+    'register_token' => env('REGISTER_TOKEN', ''),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
     |

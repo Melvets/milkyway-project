@@ -82,10 +82,7 @@
           <button type="submit" class="auth-btn-primary w-100">
             <i class="bi bi-box-arrow-in-right me-2"></i>Masuk
           </button>
-
-          <p class="auth-footer-text mt-4">
-            Belum punya akun? <a href="{{ route('register') }}" class="auth-link fw-600">Daftar sekarang</a>
-          </p>
+          
         </form>
       </div>
     </div>
