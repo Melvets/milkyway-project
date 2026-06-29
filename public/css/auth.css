@@ -291,6 +291,19 @@
   color: var(--gray);
 }
 
+/* ── Icon wrap (forgot/reset) ── */
+.auth-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(0,150,200,.1);
+  color: var(--primary);
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ── Responsive ── */
 @media (max-width: 991px) {
   .auth-card { padding: 32px 24px 28px; }

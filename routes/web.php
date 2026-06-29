@@ -13,6 +13,7 @@ Route::get('/', [LandingPageController::class, 'index']);
 // Pemesanan (publik)
 Route::get('/pesan-sekarang', [PemesananController::class, 'create'])->name('pesan.create');
 Route::post('/pesan-sekarang', [PemesananController::class, 'store'])->name('pesan.store');
+Route::get('/pesan-sukses', [PemesananController::class, 'sukses'])->name('pesan.sukses');
 
 // Dashboard & Orders (protected)
 Route::middleware(['auth', 'verified'])->group(function () {

@@ -55,9 +55,18 @@ class PemesananController extends Controller
         $fonnte->notifyAdmin($pesanan);
 
         return response()->json([
-            'success'    => true,
-            'message'    => 'Pesanan berhasil dikirim! Konfirmasi telah dikirim ke WhatsApp Anda.',
-            'pesanan_id' => $pesanan->id,
+            'success'      => true,
+            'message'      => 'Pesanan berhasil dikirim! Konfirmasi telah dikirim ke WhatsApp Anda.',
+            'pesanan_id'   => $pesanan->id,
+            'redirect_url' => route('pesan.sukses'),
         ]);
+    }
+
+    /**
+     * Halaman sukses setelah pemesanan
+     */
+    public function sukses()
+    {
+        return view('pesan-sukses');
     }
 }

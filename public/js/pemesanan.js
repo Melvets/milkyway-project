@@ -201,18 +201,18 @@ function pesanSekarang(btn, e) {
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            orders = [];
-            renderOrders();
-            document.getElementById('nama').value = '';
-            document.getElementById('hp').value = '';
-            document.getElementById('alamat').value = '';
-            showToast('✅ Pesanan berhasil! Konfirmasi dikirim ke WhatsApp Anda.');
+            showToast('✅ Pesanan berhasil! Mengalihkan...');
+            setTimeout(() => {
+                window.location.href = data.redirect_url || '/pesan-sukses';
+            }, 1200);
         } else {
             showToast('❌ Gagal mengirim pesanan.');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-whatsapp me-2"></i>Pesan Sekarang';
         }
     })
-    .catch(() => showToast('❌ Terjadi kesalahan. Coba lagi.'))
-    .finally(() => {
+    .catch(() => {
+        showToast('❌ Terjadi kesalahan. Coba lagi.');
         btn.disabled = false;
         btn.innerHTML = '<i class="bi bi-whatsapp me-2"></i>Pesan Sekarang';
     });
