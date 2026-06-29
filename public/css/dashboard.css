@@ -579,6 +579,27 @@ body {
 }
 .act-create:hover { background: #006e92; }
 
+/* Export button */
+.btn-export {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    background: rgba(46,156,78,.12);
+    color: #2e9c4e;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1.5px solid rgba(46,156,78,.25);
+    transition: background .18s, color .18s;
+    white-space: nowrap;
+}
+.btn-export:hover {
+    background: rgba(46,156,78,.22);
+    color: #1e6e36;
+}
+
 /* ── MOBILE ORDER CARDS (hidden on desktop) ── */
 .mobile-order-list { display: none; padding: 12px 14px 4px; }
 

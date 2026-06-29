@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExportPesananController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PesananController;
@@ -22,6 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard/orders/{id}/terima', [PesananController::class, 'terima'])->name('orders.terima');
     Route::post('/dashboard/orders/{id}/tolak', [PesananController::class, 'tolak'])->name('orders.tolak');
     Route::post('/dashboard/orders/{id}/selesai', [PesananController::class, 'selesai'])->name('orders.selesai');
+    Route::get('/dashboard/orders/export', [ExportPesananController::class, 'export'])->name('orders.export');
 });
 
 Route::resource('/dashboard/produk', ProdukController::class)->middleware('auth');

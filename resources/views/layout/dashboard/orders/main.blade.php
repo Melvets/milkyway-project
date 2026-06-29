@@ -44,15 +44,23 @@
     <div class="table-section mb-0">
       <div class="table-head-row">
         <h6>Order List</h6>
-        <div class="filter-tabs">
-          <a href="{{ route('orders.index') }}"
-            class="filter-tab {{ !request('status') ? 'active' : '' }}">All</a>
-          <a href="{{ route('orders.index', ['status' => 'Pending']) }}"
-            class="filter-tab {{ request('status') === 'Pending' ? 'active' : '' }}">Pending</a>
-          <a href="{{ route('orders.index', ['status' => 'Diproses']) }}"
-            class="filter-tab {{ request('status') === 'Diproses' ? 'active' : '' }}">Diproses</a>
-          <a href="{{ route('orders.index', ['status' => 'Selesai']) }}"
-            class="filter-tab {{ request('status') === 'Selesai' ? 'active' : '' }}">Selesai</a>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <div class="filter-tabs">
+            <a href="{{ route('orders.index') }}"
+              class="filter-tab {{ !request('status') ? 'active' : '' }}">All</a>
+            <a href="{{ route('orders.index', ['status' => 'Pending']) }}"
+              class="filter-tab {{ request('status') === 'Pending' ? 'active' : '' }}">Pending</a>
+            <a href="{{ route('orders.index', ['status' => 'Diproses']) }}"
+              class="filter-tab {{ request('status') === 'Diproses' ? 'active' : '' }}">Diproses</a>
+            <a href="{{ route('orders.index', ['status' => 'Selesai']) }}"
+              class="filter-tab {{ request('status') === 'Selesai' ? 'active' : '' }}">Selesai</a>
+          </div>
+          <a href="{{ route('orders.export', request()->only('status')) }}"
+             class="btn-export"
+             title="Export ke Excel">
+            <i class="bi bi-file-earmark-excel"></i>
+            <span>Export Excel</span>
+          </a>
         </div>
       </div>
 
