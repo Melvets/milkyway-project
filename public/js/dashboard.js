@@ -116,25 +116,27 @@ tab.addEventListener('click', () => {
 });
 
 // ── Sidebar drawer (mobile) ────────────────────
-const sidebar  = document.getElementById('sidebar');
-const overlay  = document.getElementById('overlay');
+const sidebar     = document.getElementById('sidebar');
+const overlay     = document.getElementById('overlay');
 const menuToggle  = document.getElementById('menuToggle');
 const sidebarClose = document.getElementById('sidebarClose');
 
 function openSidebar() {
-sidebar.classList.add('open');
-overlay.classList.add('show');
-document.body.style.overflow = 'hidden';
+  if (!sidebar || !overlay) return;
+  sidebar.classList.add('open');
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
 }
 function closeSidebar() {
-sidebar.classList.remove('open');
-overlay.classList.remove('show');
-document.body.style.overflow = '';
+  if (!sidebar || !overlay) return;
+  sidebar.classList.remove('open');
+  overlay.classList.remove('show');
+  document.body.style.overflow = '';
 }
 
-menuToggle.addEventListener('click', openSidebar);
-sidebarClose.addEventListener('click', closeSidebar);
-overlay.addEventListener('click', closeSidebar);
+if (menuToggle)   menuToggle.addEventListener('click', openSidebar);
+if (sidebarClose) sidebarClose.addEventListener('click', closeSidebar);
+if (overlay)      overlay.addEventListener('click', closeSidebar);
 
 // ── Nav active state ───────────────────────────
 function setActivePage(page) {

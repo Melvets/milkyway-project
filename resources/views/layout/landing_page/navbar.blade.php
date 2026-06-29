@@ -16,7 +16,7 @@
         <li class="nav-item"><a class="nav-link" style="font-weight: 700" href="#about">Our Story</a></li>
         <li class="nav-item"><a class="nav-link" style="font-weight: 700" href="#products">Product</a></li>
         <li class="nav-item"><a class="nav-link" style="font-weight: 700" href="#why">Benefit</a></li>
-        <li class="nav-item"><a class="nav-link" style="font-weight: 700" href="#testimoni">Testimoni</a></li>
+        <li class="nav-item"><a class="nav-link" style="font-weight: 700" href="#lokasi">Lokasi</a></li>
         <li class="nav-item"><a class="nav-link" style="font-weight: 700" href="#footer">Kontak</a></li>
       </ul>
       <div class="d-flex gap-2 mt-3 mt-lg-0">

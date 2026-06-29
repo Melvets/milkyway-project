@@ -18,12 +18,15 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
 
         <!-- Scripts -->
-        <link rel="stylesheet" href="/css/dashboard.css">
+        <link rel="stylesheet" href="/css/dashboard.css?v={{ filemtime(public_path('css/dashboard.css')) }}">
     
     </head>
     <body>
         <div style="display:flex; min-height:100vh; width:100%;">
             @include('layout.dashboard.sidebar')
+
+            {{-- Overlay for mobile sidebar --}}
+            <div id="overlay"></div>
 
             <!-- Page Content -->
             <div id="main" style="flex:1; display:flex; flex-direction:column; min-height:100vh;">
@@ -43,6 +46,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
         {{-- js --}}
-        <script src="/js/dashboard.js"></script>
+        <script src="/js/dashboard.js?v={{ filemtime(public_path('js/dashboard.js')) }}"></script>
     </body>
 </html>

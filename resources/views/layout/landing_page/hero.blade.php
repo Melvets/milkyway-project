@@ -34,13 +34,13 @@
                 {{-- Social proof --}}
                 <div class="hero-social-proof">
                     <div class="hero-proof-item">
-                        <span class="hero-proof-num">500+</span>
-                        <span class="hero-proof-label">Pelanggan</span>
+                        <span class="hero-proof-num">Budget</span>
+                        <span class="hero-proof-label">Sesuai</span>
                     </div>
                     <div class="hero-proof-divider"></div>
                     <div class="hero-proof-item">
-                        <span class="hero-proof-num">5 ⭐</span>
-                        <span class="hero-proof-label">Rating</span>
+                        <span class="hero-proof-num">Kesegaran</span>
+                        <span class="hero-proof-label">Terjamin</span>
                     </div>
                     <div class="hero-proof-divider"></div>
                     <div class="hero-proof-item">

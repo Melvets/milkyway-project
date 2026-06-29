@@ -21,7 +21,7 @@
           <li><a href="#about">Our Story</a></li>
           <li><a href="#products">Product</a></li>
           <li><a href="#why">Benefit</a></li>
-          <li><a href="#testimoni">Testimoni</a></li>
+          <li><a href="#lokasi">Lokasi</a></li>
         </ul>
       </div>
 
