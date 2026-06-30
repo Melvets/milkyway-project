@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="icon" type="image/png" href="img/icon1.png">
+        <link rel="icon" type="image/png" href="{{ asset('img/icon1.png') }}">
 
         <title>@yield('title', config('app.name') )</title>
 
@@ -47,5 +47,6 @@
 
         {{-- js --}}
         <script src="/js/dashboard.js?v={{ filemtime(public_path('js/dashboard.js')) }}"></script>
+        @stack('scripts')
     </body>
 </html>

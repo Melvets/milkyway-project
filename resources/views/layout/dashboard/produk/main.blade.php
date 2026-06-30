@@ -105,13 +105,13 @@
                       <a href="{{ route('produk.edit', $produk->id) }}" class="act-btn act-edit">
                         <i class="bi bi-pencil"></i>
                       </a>
-                      <form action="{{ route('produk.destroy', $produk->id) }}" method="POST"
-                        onsubmit="return confirm('Hapus produk ini?')">
+                      <form id="delete-form-{{ $produk->id }}" action="{{ route('produk.destroy', $produk->id) }}" method="POST" style="display:none;">
                         @csrf @method('DELETE')
-                        <button type="submit" class="act-btn act-delete">
-                          <i class="bi bi-trash3"></i>
-                        </button>
                       </form>
+                      <button type="button" class="act-btn act-delete"
+                        onclick="confirmDelete({{ $produk->id }}, '{{ addslashes($produk->nama) }}')">
+                        <i class="bi bi-trash3"></i>
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -168,13 +168,10 @@
                   <a href="{{ route('produk.edit', $produk->id) }}" class="act-btn act-edit">
                     <i class="bi bi-pencil"></i>
                   </a>
-                  <form action="{{ route('produk.destroy', $produk->id) }}" method="POST"
-                    onsubmit="return confirm('Hapus produk ini?')">
-                    @csrf @method('DELETE')
-                    <button type="submit" class="act-btn act-delete">
-                      <i class="bi bi-trash3"></i>
-                    </button>
-                  </form>
+                  <button type="button" class="act-btn act-delete"
+                    onclick="confirmDelete({{ $produk->id }}, '{{ addslashes($produk->nama) }}')">
+                    <i class="bi bi-trash3"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -206,3 +203,71 @@
     </div><!-- /page -->
 
 @endsection
+
+@push('scripts')
+{{-- Delete Confirmation Modal --}}
+<div id="deleteModal" style="
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(15,23,42,.45); backdrop-filter:blur(4px);
+  align-items:center; justify-content:center;">
+  <div style="
+    background:#fff; border-radius:16px; padding:32px 28px 24px;
+    width:100%; max-width:380px; margin:16px;
+    box-shadow:0 20px 60px rgba(0,0,0,.18); text-align:center; animation:modalIn .2s ease;">
+    <div style="width:56px; height:56px; border-radius:50%; background:#fff0f0;
+      display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+      <i class="bi bi-trash3-fill" style="font-size:24px; color:#e53e3e;"></i>
+    </div>
+    <h5 style="font-size:1.05rem; font-weight:700; color:#1a202c; margin-bottom:8px;">Hapus Produk?</h5>
+    <p style="font-size:.875rem; color:#64748b; margin-bottom:24px; line-height:1.5;">
+      Produk <strong id="deleteProdukName" style="color:#1a202c;"></strong> akan dihapus permanen dan tidak bisa dikembalikan.
+    </p>
+    <div style="display:flex; gap:10px; justify-content:center;">
+      <button onclick="closeDeleteModal()"
+        style="flex:1; padding:10px 0; border-radius:10px; border:1.5px solid #e2e8f0;
+          background:#fff; color:#4a5e7a; font-size:.875rem; font-weight:600; cursor:pointer;">
+        Batal
+      </button>
+      <button onclick="submitDelete()"
+        style="flex:1; padding:10px 0; border-radius:10px; border:none;
+          background:#e53e3e; color:#fff; font-size:.875rem; font-weight:600; cursor:pointer;">
+        <i class="bi bi-trash3 me-1"></i> Hapus
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes modalIn {
+  from { opacity:0; transform:scale(.92); }
+  to   { opacity:1; transform:scale(1); }
+}
+</style>
+
+<script>
+  let _deleteId = null;
+
+  function confirmDelete(id, nama) {
+    _deleteId = id;
+    document.getElementById('deleteProdukName').textContent = nama;
+    const modal = document.getElementById('deleteModal');
+    modal.style.display = 'flex';
+  }
+
+  function closeDeleteModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+    _deleteId = null;
+  }
+
+  function submitDelete() {
+    if (_deleteId) {
+      document.getElementById('delete-form-' + _deleteId).submit();
+    }
+  }
+
+  // Tutup modal jika klik backdrop
+  document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDeleteModal();
+  });
+</script>
+@endpush

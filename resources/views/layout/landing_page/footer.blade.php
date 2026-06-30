@@ -40,7 +40,7 @@
         <h6>Kontak</h6>
         <div class="contact-item">
           <i class="bi bi-geo-alt-fill"></i>
-          <span>Jl. Sapan Raya, Plamongan Indah – Pemesanan Khusus Kota Semarang</span>
+          <span>Jl. Sapen Raya, RT.5/RW.5, Tlogomulyo, Pedurungan, Kota Semarang, Jawa Tengah</span>
         </div>
         <div class="contact-item">
           <i class="bi bi-whatsapp"></i>
@@ -56,7 +56,7 @@
         </div>
         <div class="contact-item">
           <i class="bi bi-envelope-fill"></i>
-          <span>indonesiamilky@gmail.com</span>
+          <span>indonesiamilkyway@gmail.com</span>
         </div>
       </div>
 

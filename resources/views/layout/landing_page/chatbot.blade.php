@@ -17,7 +17,7 @@
                 size: 60,
                 dragAndDrop: true,
                 iconColor: 'white',
-                customIconSrc: 'img/icon1.png',
+                customIconSrc: 'img/iconbot.png',
                 padding: 0,
                 autoWindowOpen: {
                     autoOpen: false,
@@ -64,7 +64,7 @@
                 showTitle: true,
                 showAgentMessages: true,
                 title: 'MilkyBot',
-                titleAvatarSrc: 'img/icon1.png',
+                titleAvatarSrc: 'img/iconbot.png',
                 welcomeMessage: 'Halo, selamat datang di Milkyway, silahkan ada yang bisa dibantu? 🥰',
                 errorMessage: 'Maaf, MilkyBot jawab lain kali ya!',
                 backgroundColor: '#fafafa',

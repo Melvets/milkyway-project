@@ -40,15 +40,15 @@
 
             <div class="d-flex align-items-center gap-2 mb-3">
               <i class="bi bi-telephone-fill" style="color:var(--primary);"></i>
-              <span style="font-size:.88rem; color:var(--navy);">+62 812-3456-7890</span>
+              <span style="font-size:.88rem; color:var(--navy);">+62 882-003-47409</span>
             </div>
             <div class="d-flex align-items-center gap-2 mb-3">
               <i class="bi bi-clock-fill" style="color:var(--primary);"></i>
-              <span style="font-size:.88rem; color:var(--navy);">Senin – Sabtu, 07.00 – 17.00</span>
+              <span style="font-size:.88rem; color:var(--navy);">Buka setiap hari</span>
             </div>
             <div class="d-flex align-items-center gap-2">
-              <i class="bi bi-whatsapp" style="color:#25d366;"></i>
-              <a href="https://wa.me/6281234567890" target="_blank" style="font-size:.88rem; color:var(--primary); text-decoration:none; font-weight:600;">Chat via WhatsApp</a>
+              <i class="bi bi-geo-alt-fill" style="color:var(--primary);"></i>
+              <span style="font-size:.88rem; color:var(--navy); font-weight:600;">Kota Semarang</span>
             </div>
           </div>
 
